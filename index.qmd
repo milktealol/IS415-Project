@@ -1,5 +1,5 @@
 ---
-title: "IS415-Project"
+title: "IS415 - Group 5 - Geospatial Analytics Project"
 ---
 
 This is a Quarto website.
