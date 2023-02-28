@@ -20,6 +20,8 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - href: zoe.qmd
+        text: ZOE
 
 format:
   html:

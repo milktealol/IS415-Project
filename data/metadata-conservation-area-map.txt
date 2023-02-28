@@ -1,0 +1,35 @@
+# Metadata for Conservation Area Map
+---
+Identifier: '819c0811-74ba-4625-b341-244c53564b7a'
+Name: 'conservation-area-map'
+Title: 'Conservation Area Map'
+Description: 'Conservation areas in Singapore'
+Topics:
+  - 'Infrastructure'
+Keywords:
+  - 'conservation'
+  - 'conserved area'
+Publisher:
+  Name: 'Urban Redevelopment Authority'
+  Admin 1:
+    Name: 'Pamela Poh'
+    Department: 'Urban Redevelopment Authority'
+    Email: 'pamela_poh@ura.gov.sg'
+Sources:
+  - 'Urban Redevelopment Authority'
+License: 'https://data.gov.sg/open-data-licence'
+Frequency: 'Ad-hoc'
+Last Updated: '2016-11-05T03:49:29.599193'
+Resources:
+  -
+    Identifier: '4a50d631-d4a4-4dec-8de7-be233f50fdc1'
+    Title: 'Conservation Area Map (KML)'
+    Url: 'https://geo.data.gov.sg/ura-conservation-area/2015/11/05/kml/ura-conservation-area.zip'
+    Format: 'KML'
+    Last Updated: '2015-11-04T16:00:00'
+  -
+    Identifier: '5a62ec2e-883b-47cf-a19f-dad033800d0e'
+    Title: 'Conservation Area Map (SHP)'
+    Url: 'https://geo.data.gov.sg/ura-conservation-area/2015/11/05/shp/ura-conservation-area.zip'
+    Format: 'SHP'
+    Last Updated: '2015-11-04T16:00:00'
