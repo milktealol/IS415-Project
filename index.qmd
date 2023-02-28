@@ -1,11 +1,17 @@
 ---
-title: "IS415 - Group 5 - Geospatial Analytics Project"
+title: "IS415 - Team 5 - Transit-ability"
 ---
 
-This is a Quarto website.
+Welcome to **IS415 Geospatial Analytics and Applications - Team 5**
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This is our team's Geospatial Analytics and Applications Group Project Website!
 
-```{r}
-1 + 1
-```
+------------------------------------------------------------------------
+
+The Team
+
+:   Daniel Chng - Daniel.Chng.2020\@scis.smu.edu.sg
+
+    Leon Tan - Leon.Tan.2020\@scis.smu.edu.sg
+
+    Zoe Chia - Alanischia.2018\@scis.smu.edu.sg

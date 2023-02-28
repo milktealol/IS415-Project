@@ -5,6 +5,18 @@ website:
   title: "IS415 - Group 5"
   navbar:
     left:
+      - text: "Overview"
+        href: "overview/overview.html"
+      - text: "Project Proposal"
+        href: "proposal/proposal.html"
+      - text: "Poster"
+        href: "poster/poster.html"
+      - text: "Shiny App"
+        href: "https://leontanliyang.shinyapps.io/ShinyWorkshopEx/?_ga=2.85313881.170497141.1677572152-999088926.1674193931"
+      - text: "Research Paper"
+        href: "research/research.html"
+
+    right:
       - href: index.qmd
         text: Home
       - about.qmd

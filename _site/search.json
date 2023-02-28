@@ -1,16 +1,23 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "IS415-Project",
-    "section": "",
-    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites.\n\n1 + 1\n\n[1] 2"
-  },
-  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
     "section": "",
     "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "IS415 - Team 5 - Transit-ability",
+    "section": "",
+    "text": "Welcome to IS415 Geospatial Analytics and Applications - Team 5\nThis is our team’s Geospatial Analytics and Applications Group Project Website!\n\n\nThe Team\n\nDaniel Chng - Daniel.Chng.2020@scis.smu.edu.sg\nLeon Tan - Leon.Tan.2020@scis.smu.edu.sg\nZoe Chia - Alanischia.2018@scis.smu.edu.sg"
+  },
+  {
+    "objectID": "proposal/proposal.html",
+    "href": "proposal/proposal.html",
+    "title": "Project Proposal",
+    "section": "",
+    "text": "Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.\n\n\n\n\nFind out how accessible the MRT & LRT are for Singapore commuters.\nFind out how well is the coverage of MRT & LRT services in Singapore.\nVisualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)\n\n\n\n\n\nMapping MRT & LRT Stations: A first step in any geospatial project on MRT & LRT accessibility would be to map the location of all MRT & LRT stations across the city. This can be done using a variety of tools, including GIS software and open-source mapping platforms like OpenStreetMap.\nPopulation Density: Once the location of MRT & LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.\nMeasuring Accessibility: The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m)."
   }
 ]

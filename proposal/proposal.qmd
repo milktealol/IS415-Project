@@ -1,0 +1,52 @@
+---
+title: "Project Proposal"
+date: "28 February 2023"
+date-modified: "`r Sys.Date()`"
+author: "Daniel Chng, Leon Tan & Zoe Chia "
+format: html
+execute:
+  eval: true
+  echo: true
+  message: false
+  warning: false
+editor: visual
+---
+
+# Transit-Ability
+
+## Theme: Geographical Accessibility and Spatial Interaction Models
+
+## Problem & Motivation
+
+Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.
+
+## Project Objectives
+
+1.  Find out how accessible the MRT & LRT are for Singapore commuters.
+
+2.  Find out how well is the coverage of MRT & LRT services in Singapore.
+
+3.  Visualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)
+
+## Main Features
+
+-   **Mapping MRT & LRT Stations:** A first step in any geospatial project on MRT & LRT accessibility would be to map the location of all MRT & LRT stations across the city. This can be done using a variety of tools, including GIS software and open-source mapping platforms like OpenStreetMap.
+
+-   **Population Density:** Once the location of MRT & LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.
+
+-   **Measuring Accessibility:** The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m).
+
+
+
+
+## Data
+
+## Approach & Methodology
+
+## Literature Review
+
+## Storyboard
+
+## Application Architecture
+
+## Timeline
