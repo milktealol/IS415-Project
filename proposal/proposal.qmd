@@ -114,7 +114,7 @@ Geographical accessibility and spatial interaction models are important consider
 
         -   Based on the results of the maps, it was separated as the information would be to clustered if all the data is placed in one map. The team will separate the maps or graphs when necessary.
 
-        -    Author mentioned that it was difficult to combine all the information together, it is time consuming. Hence, the team will work on it earlier.
+        -   Author mentioned that it was difficult to combine all the information together, it is time consuming. Hence, the team will work on it earlier.
 
 -   [Analysis of the impact of the MRT system on accessibility in Singapore using an integrated GIS tool](https://www.sciencedirect.com/science/article/pii/S0966692303000589)
 
@@ -139,6 +139,12 @@ Geographical accessibility and spatial interaction models are important consider
         -   The authors mentioned that the study is mainly descriptive in nature, and in the future, prescriptive analysis would be able to support urban transportation planning activities with accessibility as one of the major goals. As the team is only working on Population Density with MRT & LRT stations, it is important that the end result does not deviate.
 
 ## Storyboard
+
+![](images/Slide1.PNG)
+
+![](images/Slide2.PNG)
+
+![](images/Slide3.PNG)
 
 ## Application Architecture
 
