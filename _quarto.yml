@@ -3,6 +3,7 @@ project:
 
 website:
   title: "IS415 - Group 5"
+  favicon: images/logo.png
   navbar:
     left:
       - text: "Overview"
@@ -17,11 +18,8 @@ website:
         href: "research/research.html"
 
     right:
-      - href: index.qmd
-        text: Home
-      - about.qmd
-      - href: zoe.qmd
-        text: ZOE
+      - icon: github
+        href: https://github.com/milktealol/IS415-Project
 
 format:
   html:
