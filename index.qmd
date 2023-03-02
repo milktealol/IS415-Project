@@ -2,15 +2,13 @@
 title: "IS415 - Team 5 - Transit-Ability"
 ---
 
+![](images/logo.png){width="263"}
+
 Welcome to **IS415 Geospatial Analytics and Applications - Team 5**
 
 This is our team's Geospatial Analytics and Applications Group Project Website!
 
 ------------------------------------------------------------------------
-
-# Transit-Ability's Logo
-
-![](images/gray%20minimalist%20building%20logo%20design.png){width="328"}
 
 ------------------------------------------------------------------------
 
