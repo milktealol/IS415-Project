@@ -12,7 +12,9 @@ execute:
 editor: visual
 ---
 
-# Transit-Ability
+# Project Name: Transit-Ability
+
+------------------------------------------------------------------------
 
 ## Theme: Geographical Accessibility and Spatial Interaction Models
 
@@ -48,15 +50,15 @@ Geographical accessibility and spatial interaction models are important consider
 
 -   **MRT & LRT Stations**
 
-    -   https://datamall.lta.gov.sg/content/datamall/en/static-data.html
+    -   <https://datamall.lta.gov.sg/content/datamall/en/static-data.html>
 
-    -   https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion
+    -   <https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion>
 
     -   <https://data.gov.sg/dataset/master-plan-2019-rail-line-layer>
 
 -   **Schools**
 
-    -   https://data.gov.sg/dataset/lta-school-zone
+    -   <https://data.gov.sg/dataset/lta-school-zone>
 
 -   **Places of Interest**
 
@@ -81,3 +83,5 @@ Geographical accessibility and spatial interaction models are important consider
 ![](images/Colorful%20Minimalist%20Business%20Plan%20Infographic%20Chart.gif){width="537"}
 
 ## Timeline
+
+![](images/Online%20Gantt%2020230302%20(1).png)
