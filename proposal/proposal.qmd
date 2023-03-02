@@ -22,11 +22,11 @@ Geographical accessibility and spatial interaction models are important consider
 
 ## Project Objectives
 
-1.  Find out how accessible the MRT & LRT are for Singapore commuters.
+-   Find out how accessible the MRT & LRT are for Singapore commuters.
 
-2.  Find out how well is the coverage of MRT & LRT services in Singapore.
+-   Find out how well is the coverage of MRT & LRT services in Singapore.
 
-3.  Visualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)
+-   Visualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)
 
 ## Main Features
 
@@ -36,17 +36,48 @@ Geographical accessibility and spatial interaction models are important consider
 
 -   **Measuring Accessibility:** The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m).
 
-
-
-
 ## Data
 
+-   **Population Density**
+
+    -   <https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution>
+
+-   **Singapore Zoning**
+
+    -   <https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea>
+
+-   **MRT & LRT Stations**
+
+    -   https://datamall.lta.gov.sg/content/datamall/en/static-data.html
+
+    -   https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion
+
+    -   <https://data.gov.sg/dataset/master-plan-2019-rail-line-layer>
+
+-   **Schools**
+
+    -   https://data.gov.sg/dataset/lta-school-zone
+
+-   **Places of Interest**
+
+    -   <https://data.gov.sg/dataset/tourist-attractions>
+
 ## Approach & Methodology
+
+-   Data Preparation
+
+    -   Assemble data from various sources
+
+    -   Importing data
+
+    -   Data wrangling
 
 ## Literature Review
 
 ## Storyboard
 
 ## Application Architecture
+
+![](images/Colorful%20Minimalist%20Business%20Plan%20Infographic%20Chart.gif){width="537"}
 
 ## Timeline

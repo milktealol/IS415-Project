@@ -8,6 +8,12 @@ This is our team's Geospatial Analytics and Applications Group Project Website!
 
 ------------------------------------------------------------------------
 
+# Transit-Ability
+
+![](images/gray%20minimalist%20building%20logo%20design.png){width="328"}
+
+------------------------------------------------------------------------
+
 The Team
 
 :   Daniel Chng - Daniel.Chng.2020\@scis.smu.edu.sg
