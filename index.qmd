@@ -2,17 +2,15 @@
 title: "IS415 - Team 5 - Transit-Ability"
 ---
 
-![](images/logo.png){width="263"}
+![](images/logo.png){fig-align="center" width="324"}
 
-Welcome to **IS415 Geospatial Analytics and Applications - Team 5**
+Welcome to **IS415 Geospatial Analytics and Applications - Team 5** {.center}
 
-This is our team's Geospatial Analytics and Applications Group Project Website!
-
-------------------------------------------------------------------------
+This is our team's Geospatial Analytics and Applications Group Project Website!{.center}
 
 ------------------------------------------------------------------------
 
-The Team
+The Team {.center}
 
 :   Daniel Chng - Daniel.Chng.2020\@scis.smu.edu.sg
 
