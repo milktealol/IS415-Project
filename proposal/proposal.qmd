@@ -59,6 +59,7 @@ Geographical accessibility and spatial interaction models are important consider
 -   **Schools**
 
     -   <https://data.gov.sg/dataset/lta-school-zone>
+    -   <https://data.gov.sg/dataset/listing-of-centres>
 
 -   **Places of Interest**
 
