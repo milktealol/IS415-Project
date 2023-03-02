@@ -9,15 +9,57 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "IS415 - Team 5 - Transit-Ability",
+    "title": "IS415 - Group 5",
     "section": "",
-    "text": "Welcome to IS415 Geospatial Analytics and Applications - Team 5 {.center}\nThis is our team’s Geospatial Analytics and Applications Group Project Website!{.center}\n\n\nThe Team {.center}\n\nDaniel Chng - Daniel.Chng.2020@scis.smu.edu.sg\nLeon Tan - Leon.Tan.2020@scis.smu.edu.sg\nZoe Chia - Alanischia.2018@scis.smu.edu.sg"
+    "text": "Welcome to IS415 Geospatial Analytics and Applications - Team 5\nThis is our team’s Geospatial Analytics and Applications Group Project Website!\n\nThe Team\nDaniel Chng - Daniel.Chng.2020@scis.smu.edu.sg\nLeon Tan - Leon.Tan.2020\\@scis.smu.edu.sg\nZoe Chia - Alanischia.2018\\@scis.smu.edu.sg"
   },
   {
     "objectID": "proposal/proposal.html",
     "href": "proposal/proposal.html",
     "title": "Project Proposal",
     "section": "",
-    "text": "Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.\n\n\n\n\nFind out how accessible the MRT & LRT are for Singapore commuters.\nFind out how well is the coverage of MRT & LRT services in Singapore.\nVisualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)\n\n\n\n\n\nMapping MRT & LRT Stations: A first step in any geospatial project on MRT & LRT accessibility would be to map the location of all MRT & LRT stations across the city. This can be done using a variety of tools, including GIS software and open-source mapping platforms like OpenStreetMap.\nPopulation Density: Once the location of MRT & LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.\nMeasuring Accessibility: The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m)."
+    "text": "Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.\n\n\n\n\nFind out how accessible the MRT & LRT are for Singapore commuters.\nFind out how well is the coverage of MRT & LRT services in Singapore.\nVisualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)\n\n\n\n\n\nMapping MRT & LRT Stations: A first step in any geospatial project on MRT & LRT accessibility would be to map the location of all MRT & LRT stations across the city. This can be done using a variety of tools, including GIS software and open-source mapping platforms like OpenStreetMap.\nPopulation Density: Once the location of MRT & LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.\nMeasuring Accessibility: The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m).\n\n\n\n\n\nPopulation Density\n\nhttps://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution\n\nSingapore Zoning\n\nhttps://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea\n\nMRT & LRT Stations\n\nhttps://datamall.lta.gov.sg/content/datamall/en/static-data.html\nhttps://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion\nhttps://data.gov.sg/dataset/master-plan-2019-rail-line-layer\n\nSchools\n\nhttps://data.gov.sg/dataset/lta-school-zone\n\nPlaces of Interest\n\nhttps://data.gov.sg/dataset/tourist-attractions\n\n\n\n\n\n\nData Preparation\n\nAssemble data from various sources\nImporting data\nData wrangling"
+  },
+  {
+    "objectID": "zoe.html",
+    "href": "zoe.html",
+    "title": "zoe’s attempt",
+    "section": "",
+    "text": "pacman::p_load(sf, spdep, tmap, tidyverse, knitr)"
+  },
+  {
+    "objectID": "zoe.html#planning-boundary",
+    "href": "zoe.html#planning-boundary",
+    "title": "zoe’s attempt",
+    "section": "Planning Boundary",
+    "text": "Planning Boundary\n\nplanningBoundaryArea <- st_read(dsn=\"data/planning-boundary-area.kml\")\n\nReading layer `URA_MP19_PLNG_AREA_PL' from data source \n  `C:\\wamp64\\www\\IS415-Project\\data\\planning-boundary-area.kml' \n  using driver `KML'\nSimple feature collection with 55 features and 2 fields\nGeometry type: POLYGON\nDimension:     XYZ\nBounding box:  xmin: 103.6012 ymin: 1.149527 xmax: 104.1192 ymax: 1.478359\nz_range:       zmin: 0 zmax: 0\nGeodetic CRS:  WGS 84\n\n\n\nPlot\n\ntm_shape(planningBoundaryArea) +tm_polygons()"
+  },
+  {
+    "objectID": "zoe.html#singpapore-subzones",
+    "href": "zoe.html#singpapore-subzones",
+    "title": "zoe’s attempt",
+    "section": "Singpapore Subzones",
+    "text": "Singpapore Subzones\n\nmpsz_sf <- st_read(dsn = \"data/SingaporeSubzone\", \n                layer = \"MP14_SUBZONE_WEB_PL\")\n\nReading layer `MP14_SUBZONE_WEB_PL' from data source \n  `C:\\wamp64\\www\\IS415-Project\\data\\SingaporeSubzone' using driver `ESRI Shapefile'\nSimple feature collection with 323 features and 15 fields\nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\n\n\n\nCheck data type\n\nst_geometry(mpsz_sf)\n\nGeometry set for 323 features \nGeometry type: MULTIPOLYGON\nDimension:     XY\nBounding box:  xmin: 2667.538 ymin: 15748.72 xmax: 56396.44 ymax: 50256.33\nProjected CRS: SVY21\nFirst 5 geometries:\n\n\n\n\nPlot\n\n#tm_shape(mpsz_sf) +tm_polygons() +tm_shape(TrainStations) +tm_dots()"
+  },
+  {
+    "objectID": "zoe.html#mrtlrt-routes",
+    "href": "zoe.html#mrtlrt-routes",
+    "title": "zoe’s attempt",
+    "section": "MRT/LRT routes",
+    "text": "MRT/LRT routes\n\n#railroutes <- st_read(dsn=\"data/rail-line.kml\")"
+  },
+  {
+    "objectID": "zoe.html#train-stations",
+    "href": "zoe.html#train-stations",
+    "title": "zoe’s attempt",
+    "section": "Train Stations",
+    "text": "Train Stations\n\n#TrainStations <- st_read(dsn = \"data/TrainStation_Feb2023\", \n                #layer = \"RapidTransitSystemStation\")\n\n\n#st_geometry(TrainStations)"
+  },
+  {
+    "objectID": "zoe.html#population-data",
+    "href": "zoe.html#population-data",
+    "title": "zoe’s attempt",
+    "section": "Population Data",
+    "text": "Population Data\n\n#popdata<-read_csv(\"data/ResidentialPopByGeog/hdb-resident-population-by-geographical-distribution.csv\")"
   }
 ]
