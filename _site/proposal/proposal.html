@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Daniel Chng, Leon Tan &amp; Zoe Chia">
+<meta name="dcterms.date" content="2023-02-28">
+
+<title>IS415 - Group 5 - Project Proposal</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../images/logo.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-sidebar floating nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">IS415 - Group 5</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../overview/overview.html">
+ <span class="menu-text">Overview</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="../proposal/proposal.html" aria-current="page">
+ <span class="menu-text">Project Proposal</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../poster/poster.html">
+ <span class="menu-text">Poster</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://leontanliyang.shinyapps.io/ShinyWorkshopEx/?_ga=2.85313881.170497141.1677572152-999088926.1674193931">
+ <span class="menu-text">Shiny App</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../research/research.html">
+ <span class="menu-text">Research Paper</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/milktealol/IS415-Project"><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+              <div class="quarto-toggle-container">
+                  <a href="" class="quarto-reader-toggle nav-link" onclick="window.quartoToggleReader(); return false;" title="Toggle reader mode">
+  <div class="quarto-reader-toggle-btn">
+  <i class="bi"></i>
+  </div>
+</a>
+              </div>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title">Project Proposal</h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#project-name-transit-ability" id="toc-project-name-transit-ability" class="nav-link active" data-scroll-target="#project-name-transit-ability">Project Name: Transit-Ability</a>
+  <ul class="collapse">
+  <li><a href="#theme-geographical-accessibility-and-spatial-interaction-models" id="toc-theme-geographical-accessibility-and-spatial-interaction-models" class="nav-link" data-scroll-target="#theme-geographical-accessibility-and-spatial-interaction-models">Theme: Geographical Accessibility and Spatial Interaction Models</a></li>
+  <li><a href="#problem-motivation" id="toc-problem-motivation" class="nav-link" data-scroll-target="#problem-motivation">Problem &amp; Motivation</a></li>
+  <li><a href="#project-objectives" id="toc-project-objectives" class="nav-link" data-scroll-target="#project-objectives">Project Objectives</a></li>
+  <li><a href="#main-features" id="toc-main-features" class="nav-link" data-scroll-target="#main-features">Main Features</a></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data">Data</a></li>
+  <li><a href="#approach-methodology" id="toc-approach-methodology" class="nav-link" data-scroll-target="#approach-methodology">Approach &amp; Methodology</a></li>
+  <li><a href="#literature-review" id="toc-literature-review" class="nav-link" data-scroll-target="#literature-review">Literature Review</a></li>
+  <li><a href="#storyboard" id="toc-storyboard" class="nav-link" data-scroll-target="#storyboard">Storyboard</a></li>
+  <li><a href="#application-architecture" id="toc-application-architecture" class="nav-link" data-scroll-target="#application-architecture">Application Architecture</a></li>
+  <li><a href="#timeline" id="toc-timeline" class="nav-link" data-scroll-target="#timeline">Timeline</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block">Project Proposal</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Daniel Chng, Leon Tan &amp; Zoe Chia </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 28, 2023</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">March 2, 2023</p>
+    </div>
+  </div>
+    
+  </div>
+  
+
+</header>
+
+<section id="project-name-transit-ability" class="level1">
+<h1>Project Name: Transit-Ability</h1>
+<hr>
+<section id="theme-geographical-accessibility-and-spatial-interaction-models" class="level2">
+<h2 class="anchored" data-anchor-id="theme-geographical-accessibility-and-spatial-interaction-models">Theme: Geographical Accessibility and Spatial Interaction Models</h2>
+</section>
+<section id="problem-motivation" class="level2">
+<h2 class="anchored" data-anchor-id="problem-motivation">Problem &amp; Motivation</h2>
+<p>Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.</p>
+</section>
+<section id="project-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="project-objectives">Project Objectives</h2>
+<ul>
+<li><p>Find out how accessible the MRT &amp; LRT are for Singapore commuters.</p></li>
+<li><p>Find out how well is the coverage of MRT &amp; LRT services in Singapore.</p></li>
+<li><p>Visualise how the locations of MRT &amp; LRT are related with its surroundings. (e.g.&nbsp;School, Shopping Malls, etc.)</p></li>
+</ul>
+</section>
+<section id="main-features" class="level2">
+<h2 class="anchored" data-anchor-id="main-features">Main Features</h2>
+<ul>
+<li><p><strong>Mapping MRT &amp; LRT Stations:</strong> A first step in any geospatial project on MRT &amp; LRT accessibility would be to map the location of all MRT &amp; LRT stations across the city. This can be done using a variety of tools, including GIS software and open-source mapping platforms like OpenStreetMap.</p></li>
+<li><p><strong>Population Density:</strong> Once the location of MRT &amp; LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.</p></li>
+<li><p><strong>Measuring Accessibility:</strong> The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m).</p></li>
+</ul>
+</section>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">Data</h2>
+<ul>
+<li><p><strong>Population Density</strong></p>
+<ul>
+<li><a href="https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution" class="uri">https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution</a></li>
+</ul></li>
+<li><p><strong>Singapore Zoning</strong></p>
+<ul>
+<li><a href="https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea" class="uri">https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea</a></li>
+</ul></li>
+<li><p><strong>MRT &amp; LRT Stations</strong></p>
+<ul>
+<li><p><a href="https://datamall.lta.gov.sg/content/datamall/en/static-data.html" class="uri">https://datamall.lta.gov.sg/content/datamall/en/static-data.html</a></p></li>
+<li><p><a href="https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion" class="uri">https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion</a></p></li>
+<li><p><a href="https://data.gov.sg/dataset/master-plan-2019-rail-line-layer" class="uri">https://data.gov.sg/dataset/master-plan-2019-rail-line-layer</a></p></li>
+</ul></li>
+<li><p><strong>Schools</strong></p>
+<ul>
+<li><a href="https://data.gov.sg/dataset/lta-school-zone" class="uri">https://data.gov.sg/dataset/lta-school-zone</a></li>
+<li><a href="https://data.gov.sg/dataset/listing-of-centres" class="uri">https://data.gov.sg/dataset/listing-of-centres</a></li>
+</ul></li>
+<li><p><strong>Places of Interest</strong></p>
+<ul>
+<li><a href="https://data.gov.sg/dataset/tourist-attractions" class="uri">https://data.gov.sg/dataset/tourist-attractions</a></li>
+</ul></li>
+</ul>
+</section>
+<section id="approach-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="approach-methodology">Approach &amp; Methodology</h2>
+<ul>
+<li><p><strong>Data Preparation</strong></p>
+<ul>
+<li><p>Collection of data</p></li>
+<li><p>Importing of data</p></li>
+<li><p>Data Wrangling</p></li>
+</ul></li>
+<li><p><strong>Exploratory Data Analysis (EDA)</strong></p>
+<ul>
+<li><p>Examine distribution of data points</p></li>
+<li><p>Check for outliers in data</p></li>
+<li><p>Remove missing data</p></li>
+<li><p>Cleaning up of data</p></li>
+</ul></li>
+<li><p><strong>Modelling and Visualising Accessibility Using:</strong></p>
+<ul>
+<li><p><strong>Hansen Method</strong></p>
+<ul>
+<li>The Hansen method involves using GIS to analyze the spatial relationship between transportation infrastructure and population. It calculates the travel time between each point in the study area and the nearest transportation facility to create maps that show the level of accessibility to different types of transportation for each location. This method is useful in identifying areas that are underserved by transportation infrastructure and evaluating the potential impacts of new transportation investments, helping planners and policymakers make more informed decisions about transportation investments and ensuring that transportation services are distributed fairly.</li>
+</ul></li>
+<li><p><strong>KD2SFCA</strong></p>
+<ul>
+<li>The KD2SFCA method involves using GIS to analyze the spatial relationship between healthcare facilities and population. The method calculates the number of healthcare providers within a certain travel time of each location, taking into account both supply and demand factors. This results in a series of maps that show the level of healthcare accessibility for each location in the study area. This method is useful in identifying areas with poor healthcare access, and can help to inform healthcare policy and planning decisions.</li>
+</ul></li>
+<li><p><strong>Spatial Accessibility Measure (SAM)</strong></p>
+<ul>
+<li>The Spatial Accessibility Measure (SAM) involves using GIS to analyze the spatial relationship between a service facility and a population. The method calculates the level of accessibility to the service facility for each location in the study area, taking into account factors such as travel time and distance, mode of transportation, and the size of the population served. The result is a series of maps that show the level of accessibility for each location, which can be used to identify areas that are underserved by the service facility. This method is useful in informing policy and planning decisions related to service provision, and can be applied to a range of service types, including healthcare, education, and retail.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="literature-review" class="level2">
+<h2 class="anchored" data-anchor-id="literature-review">Literature Review</h2>
+<ul>
+<li><p><a href="https://rstudio-pubs-static.s3.amazonaws.com/646971_600ae7934f3c4f038f10ad86389b3765.html" style="black">The Georgraphy Analysis of Singapore MRT</a></p>
+<ul>
+<li><p>Objectives</p>
+<ul>
+<li><p>Discover the population density in the different planning areas of Singapore</p></li>
+<li><p>Explore the relationship between the population density and MRT stations</p></li>
+<li><p>Analyse the population transported by MRT based on planning area</p></li>
+</ul></li>
+<li><p>Things to Note</p>
+<ul>
+<li><p>Based on the results of the maps, it was separated as the information would be to clustered if all the data is placed in one map. The team will separate the maps or graphs when necessary.</p></li>
+<li><p>Author mentioned that it was difficult to combine all the information together, it is time consuming. Hence, the team will work on it earlier.</p></li>
+</ul></li>
+</ul></li>
+<li><p><a href="https://www.sciencedirect.com/science/article/pii/S0966692303000589">Analysis of the impact of the MRT system on accessibility in Singapore using an integrated GIS tool</a></p>
+<ul>
+<li><p>Objectives</p>
+<ul>
+<li><p>Understand and analysis the following accessibility:</p>
+<ul>
+<li><p>CBD from the HDB towns</p></li>
+<li><p>Working population in the HDB towns</p></li>
+<li><p>Industrial opportunities in DGP zones</p></li>
+<li><p>Commercial opportunities in the DGP zones</p></li>
+</ul></li>
+<li><p>‘Before’ and ‘After’ between the two new MRT lines that were introduced</p></li>
+</ul></li>
+<li><p>Things to Note</p>
+<ul>
+<li><p>As the study was done in 2003, they faced limitation of not up to date data where certain points are impossible to analyse. The team will ensure that the data used are the most updated ones.</p></li>
+<li><p>The authors mentioned that the study is mainly descriptive in nature, and in the future, prescriptive analysis would be able to support urban transportation planning activities with accessibility as one of the major goals. As the team is only working on Population Density with MRT &amp; LRT stations, it is important that the end result does not deviate.</p></li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="storyboard" class="level2">
+<h2 class="anchored" data-anchor-id="storyboard">Storyboard</h2>
+<p><img src="images/Slide1.PNG" class="img-fluid"></p>
+<p><img src="images/Slide2.PNG" class="img-fluid"></p>
+<p><img src="images/Slide3.PNG" class="img-fluid"></p>
+</section>
+<section id="application-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="application-architecture">Application Architecture</h2>
+<p><img src="images/Colorful Minimalist Business Plan Infographic Chart.gif" class="img-fluid" width="537"></p>
+</section>
+<section id="timeline" class="level2">
+<h2 class="anchored" data-anchor-id="timeline">Timeline</h2>
+<p><img src="images/Online Gantt 20230302 (1).png" class="img-fluid"></p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

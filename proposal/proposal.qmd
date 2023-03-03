@@ -1,0 +1,156 @@
+---
+title: "Project Proposal"
+date: "28 February 2023"
+date-modified: "`r Sys.Date()`"
+author: "Daniel Chng, Leon Tan & Zoe Chia "
+format: html
+execute:
+  eval: true
+  echo: true
+  message: false
+  warning: false
+editor: visual
+---
+
+# Project Name: Transit-Ability
+
+------------------------------------------------------------------------
+
+## Theme: Geographical Accessibility and Spatial Interaction Models
+
+## Problem & Motivation
+
+Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.
+
+## Project Objectives
+
+-   Find out how accessible the MRT & LRT are for Singapore commuters.
+
+-   Find out how well is the coverage of MRT & LRT services in Singapore.
+
+-   Visualise how the locations of MRT & LRT are related with its surroundings. (e.g. School, Shopping Malls, etc.)
+
+## Main Features
+
+-   **Mapping MRT & LRT Stations:** A first step in any geospatial project on MRT & LRT accessibility would be to map the location of all MRT & LRT stations across the city. This can be done using a variety of tools, including GIS software and open-source mapping platforms like OpenStreetMap.
+
+-   **Population Density:** Once the location of MRT & LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.
+
+-   **Measuring Accessibility:** The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m).
+
+## Data
+
+-   **Population Density**
+
+    -   <https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution>
+
+-   **Singapore Zoning**
+
+    -   <https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea>
+
+-   **MRT & LRT Stations**
+
+    -   <https://datamall.lta.gov.sg/content/datamall/en/static-data.html>
+
+    -   <https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion>
+
+    -   <https://data.gov.sg/dataset/master-plan-2019-rail-line-layer>
+
+-   **Schools**
+
+    -   <https://data.gov.sg/dataset/lta-school-zone>
+    -   <https://data.gov.sg/dataset/listing-of-centres>
+
+-   **Places of Interest**
+
+    -   <https://data.gov.sg/dataset/tourist-attractions>
+
+## Approach & Methodology
+
+-   **Data Preparation**
+
+    -   Collection of data
+
+    -   Importing of data
+
+    -   Data Wrangling
+
+-   **Exploratory Data Analysis (EDA)**
+
+    -   Examine distribution of data points
+
+    -   Check for outliers in data
+
+    -   Remove missing data
+
+    -   Cleaning up of data
+
+-   **Modelling and Visualising Accessibility Using:**
+
+    -   **Hansen Method**
+
+        -   The Hansen method involves using GIS to analyze the spatial relationship between transportation infrastructure and population. It calculates the travel time between each point in the study area and the nearest transportation facility to create maps that show the level of accessibility to different types of transportation for each location. This method is useful in identifying areas that are underserved by transportation infrastructure and evaluating the potential impacts of new transportation investments, helping planners and policymakers make more informed decisions about transportation investments and ensuring that transportation services are distributed fairly.
+
+    -   **KD2SFCA**
+
+        -   The KD2SFCA method involves using GIS to analyze the spatial relationship between healthcare facilities and population. The method calculates the number of healthcare providers within a certain travel time of each location, taking into account both supply and demand factors. This results in a series of maps that show the level of healthcare accessibility for each location in the study area. This method is useful in identifying areas with poor healthcare access, and can help to inform healthcare policy and planning decisions.
+
+    -   **Spatial Accessibility Measure (SAM)**
+
+        -   The Spatial Accessibility Measure (SAM) involves using GIS to analyze the spatial relationship between a service facility and a population. The method calculates the level of accessibility to the service facility for each location in the study area, taking into account factors such as travel time and distance, mode of transportation, and the size of the population served. The result is a series of maps that show the level of accessibility for each location, which can be used to identify areas that are underserved by the service facility. This method is useful in informing policy and planning decisions related to service provision, and can be applied to a range of service types, including healthcare, education, and retail.
+
+## Literature Review
+
+-   [The Georgraphy Analysis of Singapore MRT](https://rstudio-pubs-static.s3.amazonaws.com/646971_600ae7934f3c4f038f10ad86389b3765.html){style="black"}
+
+    -   Objectives
+
+        -   Discover the population density in the different planning areas of Singapore
+
+        -   Explore the relationship between the population density and MRT stations
+
+        -   Analyse the population transported by MRT based on planning area
+
+    -   Things to Note
+
+        -   Based on the results of the maps, it was separated as the information would be to clustered if all the data is placed in one map. The team will separate the maps or graphs when necessary.
+
+        -   Author mentioned that it was difficult to combine all the information together, it is time consuming. Hence, the team will work on it earlier.
+
+-   [Analysis of the impact of the MRT system on accessibility in Singapore using an integrated GIS tool](https://www.sciencedirect.com/science/article/pii/S0966692303000589)
+
+    -   Objectives
+
+        -   Understand and analysis the following accessibility:
+
+            -   CBD from the HDB towns
+
+            -   Working population in the HDB towns
+
+            -   Industrial opportunities in DGP zones
+
+            -   Commercial opportunities in the DGP zones
+
+        -   'Before' and 'After' between the two new MRT lines that were introduced
+
+    -   Things to Note
+
+        -   As the study was done in 2003, they faced limitation of not up to date data where certain points are impossible to analyse. The team will ensure that the data used are the most updated ones.
+
+        -   The authors mentioned that the study is mainly descriptive in nature, and in the future, prescriptive analysis would be able to support urban transportation planning activities with accessibility as one of the major goals. As the team is only working on Population Density with MRT & LRT stations, it is important that the end result does not deviate.
+
+## Storyboard
+
+![](images/Slide1.PNG)
+
+![](images/Slide2.PNG)
+
+![](images/Slide3.PNG)
+
+## Application Architecture
+
+![](images/Colorful%20Minimalist%20Business%20Plan%20Infographic%20Chart.gif){width="537"}
+
+## Timeline
+
+![](images/Online%20Gantt%2020230302%20(1).png)

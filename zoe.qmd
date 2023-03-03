@@ -44,30 +44,30 @@ st_geometry(mpsz_sf)
 ### Plot
 
 ```{r}
-tm_shape(mpsz_sf) +tm_polygons() +tm_shape(TrainStations) +tm_dots()
+#tm_shape(mpsz_sf) +tm_polygons() +tm_shape(TrainStations) +tm_dots()
 ```
 
 ## MRT/LRT routes
 
 ```{r}
-railroutes <- st_read(dsn="data/rail-line.kml")
+#railroutes <- st_read(dsn="data/rail-line.kml")
 ```
 
 ## Train Stations
 
 ```{r}
-TrainStations <- st_read(dsn = "data/TrainStation_Feb2023", 
-                layer = "RapidTransitSystemStation")
+#TrainStations <- st_read(dsn = "data/TrainStation_Feb2023", 
+                #layer = "RapidTransitSystemStation")
 ```
 
 ```{r}
-st_geometry(TrainStations)
+#st_geometry(TrainStations)
 ```
 
 ## Population Data
 
 ```{r}
-popdata<-read_csv("data/ResidentialPopByGeog/hdb-resident-population-by-geographical-distribution.csv")
+#popdata<-read_csv("data/ResidentialPopByGeog/hdb-resident-population-by-geographical-distribution.csv")
 ```
 
 ```{r}

@@ -1,11 +1,22 @@
----
-title: "IS415 - Group 5 - Geospatial Analytics Project"
----
-
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
+```{=html}
+<style>
+p {
+  text-align: center;
+}
+</style>
 ```
+![](images/logo.png){fig-align="center" width="355"}
+
+Welcome to **IS415 Geospatial Analytics and Applications - Team 5**
+
+This is our team's Geospatial Analytics and Applications Group Project Website!
+
+------------------------------------------------------------------------
+
+**The Team**
+
+Daniel Chng - Daniel.Chng.2020\@scis.smu.edu.sg
+
+Leon Tan - Leon.Tan.2020\\\@scis.smu.edu.sg
+
+Zoe Chia - Alanischia.2018\\\@scis.smu.edu.sg
