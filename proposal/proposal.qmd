@@ -20,11 +20,17 @@ editor: visual
 
 ## Problem & Motivation
 
-Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.
+![](images/image-506978357.png){fig-align="center" width="421"}
+
+With the rapid expansion of Singapore's Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems as seen in the Rail Expansion Plan above, we need to understand the effectiveness of these stations in serving the people in terms of accessibility. Should these new stations not be useful for Singaporeans in bringing them to places, it will only bring a negative ROI in terms of financial and possible environmental impacts.
+
+Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.
 
 ## Project Objectives
 
--   Find out how accessible the MRT & LRT are for Singapore commuters.
+-   Find out how accessible MRT and LRT stations are for Singapore commuters.
+
+-   Find out which MRT/LRT station is the most accessible/inaccessible.
 
 -   Find out how well is the coverage of MRT & LRT services in Singapore.
 
@@ -101,7 +107,7 @@ Geographical accessibility and spatial interaction models are important consider
 
 ## Literature Review
 
--   [The Georgraphy Analysis of Singapore MRT](https://rstudio-pubs-static.s3.amazonaws.com/646971_600ae7934f3c4f038f10ad86389b3765.html){style="black"}
+-   [The Geography Analysis of Singapore MRT](https://rstudio-pubs-static.s3.amazonaws.com/646971_600ae7934f3c4f038f10ad86389b3765.html){style="black"}
 
     -   Objectives
 
@@ -154,3 +160,8 @@ Geographical accessibility and spatial interaction models are important consider
 ## Timeline
 
 ![](images/Online%20Gantt%2020230302%20(1).png)
+
+## Bibliography
+
+1.  Toh, T.W. (5 March 2020). *Parliament: \$60 billion to expand and renew rail network in next decade*. The Straits Times. https://www.straitstimes.com/politics/parliament-60-billion-to-expand-and-renew-rail-network-in-next-decade
+2.  Tan, A. (2 September 2019). *Mitigation measures can cut wildlife impact of running Cross Island MRT line under nature reserve: LTA.* The Straits Times. https://www.straitstimes.com/singapore/environment/running-mrt-line-through-central-catchment-nature-reserve-may-endanger
