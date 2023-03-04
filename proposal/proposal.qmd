@@ -99,7 +99,7 @@ Geographical accessibility and spatial interaction models are important consider
 
     -   **KD2SFCA**
 
-        -   The KD2SFCA method involves using GIS to analyze the spatial relationship between healthcare facilities and population. The method calculates the number of healthcare providers within a certain travel time of each location, taking into account both supply and demand factors. This results in a series of maps that show the level of healthcare accessibility for each location in the study area. This method is useful in identifying areas with poor healthcare access, and can help to inform healthcare policy and planning decisions.
+        -   The KD2SFCA method involves using GIS to analyze the spatial relationship between train stations and population. The method calculates the number of train stations within a certain travel time of each location, taking into account both supply and demand factors. This results in a series of maps that show the level of mrt stations' accessibility for each location in the study area. This method is useful in identifying areas with poor accessibility to stations.
 
     -   **Spatial Accessibility Measure (SAM)**
 
