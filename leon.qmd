@@ -1,0 +1,188 @@
+---
+title: "EDA"
+date: "28 February 2023"
+date-modified: "`r Sys.Date()`"
+author: "Daniel Chng, Leon Tan & Zoe Chia "
+format: html
+execute:
+  eval: true
+  echo: true
+  message: false
+  warning: false
+editor: visual
+---
+
+```{r}
+# Import Packages
+pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr)
+```
+
+```{r}
+# Import MPSZ
+mpsz <- st_read(dsn = "data/geospatial", layer = "MPSZ-2019")
+```
+
+```{r}
+mpsz <- st_transform(mpsz, 3414)
+st_crs(mpsz)
+```
+
+```{r}
+write_rds(mpsz, "data/model/mpsz.rds")
+```
+
+```{r}
+# Import MRT Stations
+mrt <- read.csv("data/geospatial/mrtsg.csv")
+
+mrt_sf <- st_as_sf(mrt,
+                   coords = c("Longitude",
+                              "Latitude"),
+                              crs = 4326) %>%
+  st_transform(crs = 3414)
+```
+
+```{r}
+write_rds(mrt_sf, "data/model/mrt_sf.rds")
+```
+
+```{r}
+# Tourism
+tourism_sf <- st_read(dsn = "data/geospatial", layer = "TOURISM")
+# Assign EPSG Code
+tourism_sf <- st_transform(tourism_sf, 3414)
+```
+
+```{r}
+write_rds(tourism_sf, "data/model/tourism_sf.rds")
+```
+
+```{r}
+# Shopping Malls
+shopping <- read.csv("data/geospatial/mall_coordinates.csv")
+
+shopping <- shopping %>%
+  select(name, latitude, longitude)
+
+glimpse(shopping)
+```
+
+```{r}
+shopping_sf <- st_as_sf(shopping,
+                              coords = c("longitude",
+                                         "latitude"),
+                              crs = 4326) %>%
+  st_transform(crs = 3414)
+```
+
+```{r}
+write_rds(shopping_sf, "data/model/shopping_sf.rds")
+```
+
+```{r}
+# Hexagon for Map
+hexagons <- st_read(dsn = "data/geospatial", layer = "hexagons")
+
+hexagons_sf <- st_transform(hexagons, 3414)
+```
+
+```{r}
+write_rds(hexagons_sf, "data/model/hexagons_sf.rds")
+```
+
+```{r}
+# HDB Population by Geographical Location
+hdb <- read.csv("data/aspatial/hdb-resident-population-by-geographical-distribution.csv")
+```
+
+```{r}
+# Filter out 2018 data
+hdb <- filter(hdb, shs_year == "2018")
+```
+
+```{r}
+write_rds(hdb, "data/model/hdb.rds")
+```
+
+```{r}
+tmap_mode('view')
+tmap_options(check.and.fix = TRUE) +
+tm_shape(mpsz) +
+  tm_polygons() +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.01)+
+  tm_view(set.zoom.limits = c(11,14))
+```
+
+```{r}
+mpsz_hdb <- left_join(mpsz, hdb, by = c("PLN_AREA_N" = "town_estate"))
+```
+
+```{r}
+# Population Density
+tmap_mode('view')
+tm_shape(mpsz_hdb) +
+  tm_fill("number")
+```
+
+```{r}
+# MRT vs Population Density
+tmap_mode('view')
+tm_shape(mpsz_hdb) +
+  tm_fill("number") +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.01)+
+  tm_view(set.zoom.limits = c(11,14))
+```
+
+```{r}
+# Population Data 2022
+popdata <- read_csv("data/aspatial/respopagesexfa2022.csv")
+```
+
+```{r}
+popdata2022 <- popdata %>%
+  spread(AG, Pop) %>%
+  mutate(YOUNG = `0_to_4`+`5_to_9`+`10_to_14`+
+`15_to_19`+`20_to_24`) %>%
+mutate(`ECONOMY ACTIVE` = rowSums(.[9:13])+
+rowSums(.[15:17]))%>%
+mutate(`AGED`=rowSums(.[18:22])) %>%
+mutate(`TOTAL`=rowSums(.[5:22])) %>%  
+mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
+/`ECONOMY ACTIVE`) %>%
+mutate_at(.vars = vars(PA, SZ), toupper) %>%
+select(`PA`, `SZ`, `YOUNG`, `ECONOMY ACTIVE`, `AGED`, 
+       `TOTAL`, `DEPENDENCY`) %>%
+  filter(`ECONOMY ACTIVE` > 0)
+```
+
+```{r}
+popdata2022 <- popdata2022 %>%
+  mutate_at(.vars = vars(PA, SZ), 
+          .funs = funs(toupper)) %>%
+  filter(`ECONOMY ACTIVE` > 0)
+```
+
+```{r}
+write_rds(popdata2022, "data/model/popdata2022.rds")
+```
+
+```{r}
+mpsz_popdata2022 <- left_join(mpsz, popdata2022, by = c("SUBZONE_N" = "SZ"))
+```
+
+```{r}
+write_rds(mpsz_popdata2022, "data/model/mpsz_popdata2022.rds")
+```
+
+```{r}
+# MRT vs Population Density
+tmap_mode('view')
+tm_shape(mpsz_popdata2022) +
+  tm_fill("TOTAL") +
+  tm_borders(lwd = 0.1,  alpha = 1) +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.01)+
+  tm_view(set.zoom.limits = c(11,14))
+```
