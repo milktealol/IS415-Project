@@ -24,7 +24,6 @@ mpsz <- st_read(dsn = "data/geospatial", layer = "MPSZ-2019")
 
 ```{r}
 mpsz <- st_transform(mpsz, 3414)
-st_crs(mpsz)
 ```
 
 ```{r}
@@ -33,17 +32,25 @@ write_rds(mpsz, "data/model/mpsz.rds")
 
 ```{r}
 # Import MRT Stations
-mrt <- read.csv("data/geospatial/mrtsg.csv")
+mrt <- st_read(dsn = "data/geospatial", layer = "RapidTransitSystemStation")
 
-mrt_sf <- st_as_sf(mrt,
-                   coords = c("Longitude",
-                              "Latitude"),
-                              crs = 4326) %>%
-  st_transform(crs = 3414)
+mrt_sf <- st_transform(mrt, 3414)
+```
+
+```{r}
+mrt_sf <- mrt_sf %>%
+  filter(str_detect(mrt_sf$STN_NAM_DE, "MRT STATION|LRT STATION"))
 ```
 
 ```{r}
 write_rds(mrt_sf, "data/model/mrt_sf.rds")
+```
+
+```{r}
+# MRT Rail Line
+rail <- st_read(dsn = "data/geospatial", layer = "G_MP14_RAIL_LI")
+
+rail_sf <- st_transform(rail, 3414)
 ```
 
 ```{r}
@@ -177,12 +184,20 @@ write_rds(mpsz_popdata2022, "data/model/mpsz_popdata2022.rds")
 ```
 
 ```{r}
+summary(mpsz_popdata2022$DEPENDENCY)
+```
+
+```{r}
 # MRT vs Population Density
 tmap_mode('view')
 tm_shape(mpsz_popdata2022) +
-  tm_fill("TOTAL") +
+  tm_fill("DEPENDENCY",
+          breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
   tm_borders(lwd = 0.1,  alpha = 1) +
 tm_shape(mrt_sf) +
-  tm_dots(alph=0.5, size=0.01)+
-  tm_view(set.zoom.limits = c(11,14))
+  tm_dots(alph=0.5, size=0.07)+
+  tm_view(set.zoom.limits = c(11,14)) +
+tm_shape(rail_sf) +
+  tm_lines(lty = "solid",
+           scale = 1)
 ```
