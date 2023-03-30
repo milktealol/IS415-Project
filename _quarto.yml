@@ -25,6 +25,10 @@ website:
         href: https://github.com/milktealol/IS415-Project
 
 format:
+  pdf: default
+  acm-pdf:
+    keep-tex: true
+    
   html:
     theme: cosmo
     css: styles.css

@@ -14,7 +14,7 @@ editor: visual
 
 ```{r}
 # Import Packages
-pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr)
+pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr, SpatialAcc, ggstatsplot, reshape2, fca, sp, caret, stplanr, broom)
 ```
 
 ```{r}
@@ -39,7 +39,8 @@ mrt_sf <- st_transform(mrt, 3414)
 
 ```{r}
 mrt_sf <- mrt_sf %>%
-  filter(str_detect(mrt_sf$STN_NAM_DE, "MRT STATION|LRT STATION"))
+  filter(str_detect(mrt_sf$STN_NAM_DE, "MRT STATION|LRT STATION")) %>%
+  select(c(4, 3, 5))
 ```
 
 ```{r}
@@ -57,7 +58,8 @@ rail_sf <- st_transform(rail, 3414)
 # Tourism
 tourism_sf <- st_read(dsn = "data/geospatial", layer = "TOURISM")
 # Assign EPSG Code
-tourism_sf <- st_transform(tourism_sf, 3414)
+tourism_sf <- st_transform(tourism_sf, 3414) %>%
+  select(c(6, 10, 20))
 ```
 
 ```{r}
@@ -194,10 +196,152 @@ tm_shape(mpsz_popdata2022) +
   tm_fill("DEPENDENCY",
           breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
   tm_borders(lwd = 0.1,  alpha = 1) +
-tm_shape(mrt_sf) +
-  tm_dots(alph=0.5, size=0.07)+
-  tm_view(set.zoom.limits = c(11,14)) +
 tm_shape(rail_sf) +
   tm_lines(lty = "solid",
-           scale = 1)
+           scale = 1) +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.07)+
+  tm_view(set.zoom.limits = c(11,14))
+```
+
+```{r}
+# MRT vs Tourism
+tmap_mode('view')
+tm_shape(tourism_sf) +
+  tm_dots(size = 0.1, col = 'yellow') +
+tm_shape(rail_sf) +
+  tm_lines(lty = "solid",
+           scale = 1) +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.07)+
+  tm_view(set.zoom.limits = c(11,14))
+```
+
+```{r}
+# MRT vs Shopping Malls
+tmap_mode('view')
+tm_shape(shopping_sf) +
+  tm_dots(size = 0.1, col = 'yellow') +
+tm_shape(rail_sf) +
+  tm_lines(lty = "solid",
+           scale = 1) +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.07)+
+  tm_view(set.zoom.limits = c(11,14))
+```
+
+```{r}
+st_make_grid(mrt_sf)
+```
+
+```{r}
+hexagons <- hexagons %>%
+  select(fid) %>%
+  mutate(capacity = 100)
+```
+
+```{r}
+tourism_sf <- tourism_sf %>%
+  select(OBJECTID) %>%
+  mutate(demand = 100)
+```
+
+```{r}
+mrt_coords <- st_coordinates(mrt_sf)
+```
+
+```{r}
+tourism_coord <- st_coordinates(tourism_sf)
+```
+
+```{r}
+EucMatrix <- SpatialAcc::distance(mrt_coords,
+                                  tourism_coord,
+                                  type = "euclidean")
+```
+
+```{r}
+EucMatrix_km <- as.matrix(EucMatrix/1000)
+```
+
+```{r}
+mpsz_new <- mpsz[order(mpsz$SUBZONE_C),]
+```
+
+```{r}
+mpsz_sp <- as(mpsz_new, "Spatial")
+```
+
+```{r}
+dist <- spDists(mpsz_sp)
+```
+
+```{r}
+sz_names <- mpsz$SUBZONE_C
+```
+
+```{r}
+colnames(dist) <- paste0(sz_names)
+rownames(dist) <- paste0(sz_names)
+```
+
+```{r}
+distPair <- melt(dist)
+head(distPair, 10)
+```
+
+```{r}
+distPair %>%
+  filter(value > 0) %>%
+  summary()
+```
+
+```{r}
+acc_Hansen <- data.frame(ac(mrt_sf$capacity,
+                            tourism_sf$demand,
+                            EucMatrix_km,
+                            d0 = 50,
+                            power = 2,
+                            family = "Hansen"))
+```
+
+```{r}
+colnames(acc_Hansen) <- "accHansen"
+```
+
+```{r}
+acc_Hansen <- as_tibble(acc_Hansen)
+```
+
+```{r}
+hexagon_Hansen <- bind_cols(mrt_sf, acc_Hansen)
+```
+
+```{r}
+mapex <- st_bbox(mrt_hexagon)
+```
+
+```{r}
+tmap_mode("plot")
+tm_shape(acc_Hansen,
+         bbox = mapex) + 
+  tm_fill(col = "accHansen",
+          n = 10,
+          style = "quantile",
+          border.col = "black",
+          border.lwd = 1) +
+tm_shape(tourism_sf) +
+  tm_symbols(size = 0.1) +
+  tm_layout(main.title = "Accessibility to eldercare: Hansen method",
+            main.title.position = "center",
+            main.title.size = 2,
+            legend.outside = FALSE,
+            legend.height = 0.45, 
+            legend.width = 3.0,
+            legend.format = list(digits = 6),
+            legend.position = c("right", "top"),
+            frame = TRUE) +
+  tm_compass(type="8star", size = 2) +
+  tm_scale_bar(width = 0.15) +
+  tm_grid(lwd = 0.1, alpha = 0.5)
 ```
