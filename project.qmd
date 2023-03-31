@@ -12,10 +12,16 @@ execute:
 editor: visual
 ---
 
+# Import Packages
+
 ```{r}
 # Import Packages
 pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr, SpatialAcc, ggstatsplot, reshape2, fca, sp, caret, stplanr, broom, geojsonio, jsonlite)
 ```
+
+# Import Data
+
+## MPSZ
 
 ```{r}
 # Import MPSZ
@@ -29,6 +35,8 @@ mpsz <- st_transform(mpsz, 3414)
 ```{r}
 write_rds(mpsz, "data/model/mpsz.rds")
 ```
+
+## MRT
 
 ```{r}
 # Import MRT Stations
@@ -47,12 +55,29 @@ mrt_sf <- mrt_sf %>%
 write_rds(mrt_sf, "data/model/mrt_sf.rds")
 ```
 
+## MRT Rail Line
+
 ```{r}
 # MRT Rail Line
 rail <- st_read(dsn = "data/geospatial", layer = "G_MP14_RAIL_LI")
 
 rail_sf <- st_transform(rail, 3414)
 ```
+
+```{r}
+rail_sf <- rail_sf %>%
+  filter(TYPE %in%
+           c("MRT",
+             "LRT",
+             "CCL")) %>%
+  select(c(1))
+```
+
+```{r}
+write_rds(rail_sf, "data/model/rail_sf.rds")
+```
+
+## Tourism
 
 ```{r}
 # Tourism
@@ -66,14 +91,14 @@ tourism_sf <- st_transform(tourism_sf, 3414) %>%
 write_rds(tourism_sf, "data/model/tourism_sf.rds")
 ```
 
+## Shopping Malls
+
 ```{r}
 # Shopping Malls
 shopping <- read.csv("data/geospatial/mall_coordinates.csv")
 
 shopping <- shopping %>%
   select(name, latitude, longitude)
-
-glimpse(shopping)
 ```
 
 ```{r}
@@ -88,26 +113,20 @@ shopping_sf <- st_as_sf(shopping,
 write_rds(shopping_sf, "data/model/shopping_sf.rds")
 ```
 
+## Hexagon
+
 ```{r}
 # Hexagon for Map
-hexagons <- st_read(dsn = "data/geospatial", layer = "hexagons")
+hexagon <- st_read(dsn = "data/geospatial", layer = "hexagons")
 
-hexagons_sf <- st_transform(hexagons, 3414)
+hexagon_sf <- st_transform(hexagon, 3414)
 ```
 
 ```{r}
-write_rds(hexagons_sf, "data/model/hexagons_sf.rds")
+write_rds(hexagon_sf, "data/model/hexagon_sf.rds")
 ```
 
-```{r}
-tmap_mode('view')
-tmap_options(check.and.fix = TRUE) +
-tm_shape(mpsz) +
-  tm_polygons() +
-tm_shape(mrt_sf) +
-  tm_dots(alph=0.5, size=0.01)+
-  tm_view(set.zoom.limits = c(11,14))
-```
+## Population
 
 ```{r}
 # Population Data 2022
@@ -154,6 +173,26 @@ write_rds(mpsz_popdata2022, "data/model/mpsz_popdata2022.rds")
 summary(mpsz_popdata2022$DEPENDENCY)
 ```
 
+# EDA - Visualisation
+
+## MRT & MPSZ
+
+```{r}
+# MRT vs MPSZ
+tmap_mode('view')
+tmap_options(check.and.fix = TRUE) +
+tm_shape(mpsz) +
+  tm_polygons() +
+tm_shape(rail_sf) +
+  tm_lines(lty = "solid",
+           scale = 1) +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.07)+
+  tm_view(set.zoom.limits = c(11,14))
+```
+
+## MRT & Population Density
+
 ```{r}
 # MRT vs Population Density
 tmap_mode('view')
@@ -169,6 +208,8 @@ tm_shape(mrt_sf) +
   tm_view(set.zoom.limits = c(11,14))
 ```
 
+## MRT & Tourist Attraction
+
 ```{r}
 # MRT vs Tourism
 tmap_mode('view')
@@ -181,6 +222,8 @@ tm_shape(mrt_sf) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14))
 ```
+
+## MRT & Shopping Malls
 
 ```{r}
 # MRT vs Shopping Malls
@@ -197,95 +240,87 @@ tm_shape(mrt_sf) +
 
 # HANSEN
 
+## Importing Data
+
 ```{r}
 # Hexagon for Map
-hexagons <- st_read(dsn = "data/geospatial", layer = "hexagons")
-
-hexagons_sf <- st_transform(hexagons, 3414)
+hexagon <- readRDS("data/model/hexagon_sf.rds")
 ```
 
 ```{r}
 # Tourism
-tourism_sf <- st_read(dsn = "data/geospatial", layer = "TOURISM")
-# Assign EPSG Code
-tourism_sf <- st_transform(tourism_sf, 3414) %>%
-  select(c(1, 6, 10, 20))
+tourism <- readRDS("data/model/tourism_sf.rds")
 ```
 
 ```{r}
-hexagons <- hexagons %>%
+# Import MRT Stations
+mrt <- readRDS("data/model/mrt_sf.rds")
+```
+
+```{r}
+#Import MRT Rail
+mrt_rail <- readRDS("data/model/rail_sf.rds")
+```
+
+## Hexagon & Tourist (With MRT)
+
+```{r}
+hexagon <- hexagon %>%
   select(fid) %>%
   mutate(demand = 100)
 ```
 
 ```{r}
-tourism_sf <- tourism_sf %>%
-  select(OBJECTID, ADDRESS) %>%
+tourism <- tourism %>%
+  select(PAGETITLE) %>%
   mutate(capacity = 100)
 ```
 
 ```{r}
-dist <- st_distance(hexagons, tourism_sf)
-
-dist
+tourism_coord <- st_coordinates(tourism)
+hexagon_coord <- st_centroid(hexagon) %>%
+  st_coordinates()
 ```
 
 ```{r}
-dist_km <- as.matrix(dist/1000)
-```
-
-```{r}
-tourism_coord <- st_coordinates(tourism_sf)
-hexagons_coord <- st_coordinates(hexagons)
-```
-
-```{r}
-EucMatrix <- SpatialAcc::distance(hexagons_coord,
+hex_tour <- SpatialAcc::distance(hexagon_coord,
                                   tourism_coord,
                                   type = "euclidean")
+
+hex_tour_km <- as.matrix(hex_tour/1000)
 ```
 
 ```{r}
-EucMatrix_km <- as.matrix(EucMatrix/1000)
-```
-
-```{r}
-acc_Hansen <- data.frame(ac(hexagons$demand,
-                            tourism_sf$capacity,
-                            EucMatrix_km,
+acc_Hansen <- data.frame(ac(hexagon$demand,
+                            tourism$capacity,
+                            hex_tour_km,
                             #d0 = 50,
                             power = 2,
                             family = "Hansen"))
-```
 
-```{r}
 colnames(acc_Hansen) <- "accHansen"
-```
-
-```{r}
 acc_Hansen <- as_tibble(acc_Hansen)
+hex_tour_Hansen <- bind_cols(hexagon, acc_Hansen)
 ```
 
 ```{r}
-hexagon_Hansen <- bind_cols(hexagons, acc_Hansen)
-```
-
-```{r}
-mapex <- st_bbox(mrt_hexagon)
-```
-
-```{r}
-tmap_mode("plot")
-tm_shape(acc_Hansen,
-         bbox = mapex) + 
+tmap_mode("view")
+tm_shape(hex_tour_Hansen,
+         bbox = st_bbox(hex_tour_Hansen)) + 
   tm_fill(col = "accHansen",
           n = 10,
           style = "quantile",
           border.col = "black",
           border.lwd = 1) +
-tm_shape(tourism_sf) +
+tm_shape(rail_sf) +
+  tm_lines(lty = "solid",
+           scale = 1) +
+tm_shape(mrt_sf) +
+  tm_dots(alph=0.5, size=0.07)+
+  tm_view(set.zoom.limits = c(11,14)) +
+tm_shape(tourism) +
   tm_symbols(size = 0.1) +
-  tm_layout(main.title = "Accessibility to eldercare: Hansen method",
+  tm_layout(main.title = "Accessibility to Tourism: Hansen Method",
             main.title.position = "center",
             main.title.size = 2,
             legend.outside = FALSE,
@@ -297,4 +332,84 @@ tm_shape(tourism_sf) +
   tm_compass(type="8star", size = 2) +
   tm_scale_bar(width = 0.15) +
   tm_grid(lwd = 0.1, alpha = 0.5)
+```
+
+```{r}
+tmap_mode("plot")
+```
+
+## MRT & Tourism
+
+```{r}
+mrt <- mrt %>%
+  mutate(demand = 100)
+```
+
+```{r}
+tourism <- tourism %>%
+  select(PAGETITLE) %>%
+  mutate(capacity = 100)
+```
+
+```{r}
+tourism_coord <- st_coordinates(tourism)
+mrt_coord <- st_centroid(mrt) %>%
+  st_coordinates()
+```
+
+```{r}
+mrt_tour <- SpatialAcc::distance(mrt_coord,
+                                  tourism_coord,
+                                  type = "euclidean")
+
+mrt_tour_km <- as.matrix(mrt_tour/1000)
+```
+
+```{r}
+acc_Hansen <- data.frame(ac(mrt$demand,
+                            tourism$capacity,
+                            mrt_tour_km,
+                            #d0 = 50,
+                            power = 2,
+                            family = "Hansen"))
+
+colnames(acc_Hansen) <- "accHansen"
+acc_Hansen <- as_tibble(acc_Hansen)
+mrt_tour_Hansen <- bind_cols(mrt, acc_Hansen)
+```
+
+```{r}
+# MRT & Tourism
+tmap_mode('view')
+tm_shape(tourism) +
+  tm_symbols(size = 0.5) +
+tm_shape(rail_sf) +
+  tm_lines(lty = "solid",
+           scale = 1) +
+tm_shape(mrt) +
+  tm_dots(alph=0.1, size=0.1)+
+  tm_view(set.zoom.limits = c(11,14)) +
+tm_shape(mrt_tour_Hansen) +
+  tm_bubbles(col = "accHansen",
+             n = 5,
+             style = "quantile",
+             size = 0.2,
+             border.col = "black",
+             border.lwd = 1)
+```
+
+```{r}
+mrt_tour_Hansen <- st_join(mrt_tour_Hansen, mpsz, 
+                          join = st_intersects)
+```
+
+```{r}
+ggplot(data=mrt_tour_Hansen, 
+       aes(y = log(accHansen), 
+           x= REGION_N)) +
+  geom_boxplot() +
+  geom_point(stat="summary", 
+             fun.y="mean", 
+             colour ="red", 
+             size=2)
 ```
