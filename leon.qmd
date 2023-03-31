@@ -14,7 +14,7 @@ editor: visual
 
 ```{r}
 # Import Packages
-pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr, SpatialAcc, ggstatsplot, reshape2, fca, sp, caret, stplanr, broom)
+pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr, SpatialAcc, ggstatsplot, reshape2, fca, sp, caret, stplanr, broom, geojsonio, jsonlite)
 ```
 
 ```{r}
@@ -100,45 +100,10 @@ write_rds(hexagons_sf, "data/model/hexagons_sf.rds")
 ```
 
 ```{r}
-# HDB Population by Geographical Location
-hdb <- read.csv("data/aspatial/hdb-resident-population-by-geographical-distribution.csv")
-```
-
-```{r}
-# Filter out 2018 data
-hdb <- filter(hdb, shs_year == "2018")
-```
-
-```{r}
-write_rds(hdb, "data/model/hdb.rds")
-```
-
-```{r}
 tmap_mode('view')
 tmap_options(check.and.fix = TRUE) +
 tm_shape(mpsz) +
   tm_polygons() +
-tm_shape(mrt_sf) +
-  tm_dots(alph=0.5, size=0.01)+
-  tm_view(set.zoom.limits = c(11,14))
-```
-
-```{r}
-mpsz_hdb <- left_join(mpsz, hdb, by = c("PLN_AREA_N" = "town_estate"))
-```
-
-```{r}
-# Population Density
-tmap_mode('view')
-tm_shape(mpsz_hdb) +
-  tm_fill("number")
-```
-
-```{r}
-# MRT vs Population Density
-tmap_mode('view')
-tm_shape(mpsz_hdb) +
-  tm_fill("number") +
 tm_shape(mrt_sf) +
   tm_dots(alph=0.5, size=0.01)+
   tm_view(set.zoom.limits = c(11,14))
@@ -230,32 +195,52 @@ tm_shape(mrt_sf) +
   tm_view(set.zoom.limits = c(11,14))
 ```
 
+# HANSEN
+
 ```{r}
-st_make_grid(mrt_sf)
+# Hexagon for Map
+hexagons <- st_read(dsn = "data/geospatial", layer = "hexagons")
+
+hexagons_sf <- st_transform(hexagons, 3414)
+```
+
+```{r}
+# Tourism
+tourism_sf <- st_read(dsn = "data/geospatial", layer = "TOURISM")
+# Assign EPSG Code
+tourism_sf <- st_transform(tourism_sf, 3414) %>%
+  select(c(1, 6, 10, 20))
 ```
 
 ```{r}
 hexagons <- hexagons %>%
   select(fid) %>%
-  mutate(capacity = 100)
-```
-
-```{r}
-tourism_sf <- tourism_sf %>%
-  select(OBJECTID) %>%
   mutate(demand = 100)
 ```
 
 ```{r}
-mrt_coords <- st_coordinates(mrt_sf)
+tourism_sf <- tourism_sf %>%
+  select(OBJECTID, ADDRESS) %>%
+  mutate(capacity = 100)
+```
+
+```{r}
+dist <- st_distance(hexagons, tourism_sf)
+
+dist
+```
+
+```{r}
+dist_km <- as.matrix(dist/1000)
 ```
 
 ```{r}
 tourism_coord <- st_coordinates(tourism_sf)
+hexagons_coord <- st_coordinates(hexagons)
 ```
 
 ```{r}
-EucMatrix <- SpatialAcc::distance(mrt_coords,
+EucMatrix <- SpatialAcc::distance(hexagons_coord,
                                   tourism_coord,
                                   type = "euclidean")
 ```
@@ -265,42 +250,10 @@ EucMatrix_km <- as.matrix(EucMatrix/1000)
 ```
 
 ```{r}
-mpsz_new <- mpsz[order(mpsz$SUBZONE_C),]
-```
-
-```{r}
-mpsz_sp <- as(mpsz_new, "Spatial")
-```
-
-```{r}
-dist <- spDists(mpsz_sp)
-```
-
-```{r}
-sz_names <- mpsz$SUBZONE_C
-```
-
-```{r}
-colnames(dist) <- paste0(sz_names)
-rownames(dist) <- paste0(sz_names)
-```
-
-```{r}
-distPair <- melt(dist)
-head(distPair, 10)
-```
-
-```{r}
-distPair %>%
-  filter(value > 0) %>%
-  summary()
-```
-
-```{r}
-acc_Hansen <- data.frame(ac(mrt_sf$capacity,
-                            tourism_sf$demand,
+acc_Hansen <- data.frame(ac(hexagons$demand,
+                            tourism_sf$capacity,
                             EucMatrix_km,
-                            d0 = 50,
+                            #d0 = 50,
                             power = 2,
                             family = "Hansen"))
 ```
@@ -314,7 +267,7 @@ acc_Hansen <- as_tibble(acc_Hansen)
 ```
 
 ```{r}
-hexagon_Hansen <- bind_cols(mrt_sf, acc_Hansen)
+hexagon_Hansen <- bind_cols(hexagons, acc_Hansen)
 ```
 
 ```{r}
