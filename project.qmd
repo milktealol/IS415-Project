@@ -16,7 +16,7 @@ editor: visual
 
 ```{r}
 # Import Packages
-pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr, SpatialAcc, ggstatsplot, reshape2, fca, sp, caret, stplanr, broom, geojsonio, jsonlite)
+pacman::p_load(sf, tmap, tidyverse, sfdep, readxl, Kendall, plotly, plyr, SpatialAcc, ggstatsplot, reshape2, fca, sp, caret, stplanr, broom, geojsonio, jsonlite, dplyr)
 ```
 
 # Import Data
@@ -48,7 +48,19 @@ mrt_sf <- st_transform(mrt, 3414)
 ```{r}
 mrt_sf <- mrt_sf %>%
   filter(str_detect(mrt_sf$STN_NAM_DE, "MRT STATION|LRT STATION")) %>%
-  select(c(4, 3, 5))
+  dplyr::select(c(4, 3, 5))
+```
+
+```{r}
+mrt_sf[rowSums(is.na(mrt_sf))!=0,]
+```
+
+```{r}
+st_is_valid(mrt_sf)
+```
+
+```{r}
+mrt_sf <- st_make_valid(mrt_sf)
 ```
 
 ```{r}
@@ -70,7 +82,19 @@ rail_sf <- rail_sf %>%
            c("MRT",
              "LRT",
              "CCL")) %>%
-  select(c(1))
+  dplyr::select(c(1))
+```
+
+```{r}
+rail_sf[rowSums(is.na(rail_sf))!=0,]
+```
+
+```{r}
+st_is_valid(rail_sf)
+```
+
+```{r}
+rail_sf <- st_make_valid(rail_sf)
 ```
 
 ```{r}
@@ -84,7 +108,19 @@ write_rds(rail_sf, "data/model/rail_sf.rds")
 tourism_sf <- st_read(dsn = "data/geospatial", layer = "TOURISM")
 # Assign EPSG Code
 tourism_sf <- st_transform(tourism_sf, 3414) %>%
-  select(c(6, 10, 20))
+  dplyr::select(c(6, 10, 20))
+```
+
+```{r}
+tourism_sf[rowSums(is.na(tourism_sf))!=0,]
+```
+
+```{r}
+tourism_sf <- na.omit(tourism_sf,c("Shophouses", "Cruises from Singapore"))
+```
+
+```{r}
+is(tourism_sf, "sf")
 ```
 
 ```{r}
@@ -98,7 +134,7 @@ write_rds(tourism_sf, "data/model/tourism_sf.rds")
 shopping <- read.csv("data/geospatial/mall_coordinates.csv")
 
 shopping <- shopping %>%
-  select(name, latitude, longitude)
+  dplyr::select(name, latitude, longitude)
 ```
 
 ```{r}
@@ -145,7 +181,7 @@ mutate(`TOTAL`=rowSums(.[5:22])) %>%
 mutate(`DEPENDENCY` = (`YOUNG` + `AGED`)
 /`ECONOMY ACTIVE`) %>%
 mutate_at(.vars = vars(PA, SZ), toupper) %>%
-select(`PA`, `SZ`, `YOUNG`, `ECONOMY ACTIVE`, `AGED`, 
+dplyr::select(`PA`, `SZ`, `YOUNG`, `ECONOMY ACTIVE`, `AGED`, 
        `TOTAL`, `DEPENDENCY`) %>%
   filter(`ECONOMY ACTIVE` > 0)
 ```
@@ -213,6 +249,7 @@ tm_shape(mrt_sf) +
 ```{r}
 # MRT vs Tourism
 tmap_mode('view')
+tmap_options(check.and.fix = TRUE)
 tm_shape(tourism_sf) +
   tm_dots(size = 0.1, col = 'yellow') +
 tm_shape(rail_sf) +
@@ -228,6 +265,7 @@ tm_shape(mrt_sf) +
 ```{r}
 # MRT vs Shopping Malls
 tmap_mode('view')
+tmap_options(check.and.fix = TRUE)
 tm_shape(shopping_sf) +
   tm_dots(size = 0.1, col = 'yellow') +
 tm_shape(rail_sf) +
@@ -266,13 +304,13 @@ mrt_rail <- readRDS("data/model/rail_sf.rds")
 
 ```{r}
 hexagon <- hexagon %>%
-  select(fid) %>%
+  dplyr::select(fid) %>%
   mutate(demand = 100)
 ```
 
 ```{r}
 tourism <- tourism %>%
-  select(PAGETITLE) %>%
+  dplyr::select(PAGETITLE) %>%
   mutate(capacity = 100)
 ```
 
