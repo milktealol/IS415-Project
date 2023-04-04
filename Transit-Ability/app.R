@@ -111,7 +111,7 @@ ui <- fluidPage(
                  
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-                 tmapOutput("mapPlot_hansen3", width = "100%", height = 400),
+                 plotOutput("mapPlot_hansen3", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
                 )
@@ -284,8 +284,7 @@ server <- function(input, output) {
       stat_summary(fun.y = "mean", 
                    geom = "point", 
                    colour = "red", 
-                   size = 2) +
-      theme(plot.width = unit(8, "cm"))
+                   size = 2)
   })
   
   
