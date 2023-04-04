@@ -74,7 +74,7 @@ ui <- fluidPage(
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  br(),
                  tags$p(HTML("<b>MRT x Population Density</b>")),
-                 tmapOutput("mapPlot_eda2",
+                 plotOutput("mapPlot_eda2",
                             width = "100%",
                             height = 400),
                  br(),
@@ -100,7 +100,7 @@ ui <- fluidPage(
                # Main panel
                mainPanel(
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-                 tmapOutput("mapPlot_hansen1", width = "100%", height = 400),
+                 plotOutput("mapPlot_hansen1", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  
@@ -135,7 +135,7 @@ ui <- fluidPage(
                # Main panel
                mainPanel(
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-                 tmapOutput("mapPlot_kd2sfca1", width = "100%", height = 400),
+                 plotOutput("mapPlot_kd2sfca1", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  
@@ -146,7 +146,7 @@ ui <- fluidPage(
                  
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-                 tmapOutput("mapPlot_kd2sfcan3", width = "100%", height = 400),
+                 plotOutput("mapPlot_kd2sfcan3", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
                )
@@ -170,7 +170,7 @@ ui <- fluidPage(
                # Main panel
                mainPanel(
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-                 tmapOutput("mapPlot_sam1", width = "100%", height = 400),
+                 plotOutput("mapPlot_sam1", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  
@@ -181,7 +181,7 @@ ui <- fluidPage(
                  
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-                 tmapOutput("mapPlot_sam3", width = "100%", height = 400),
+                 plotOutput("mapPlot_sam3", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
                )
@@ -205,7 +205,7 @@ server <- function(input, output) {
               view.legend.position = c("right", "bottom"))
   })
   
-  output$mapPlot_eda2 <- renderTmap({
+  output$mapPlot_eda2 <- renderPlot({
     tm_shape(mpsz_popdata2022) +
       tm_fill("DEPENDENCY",
               breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
@@ -237,7 +237,7 @@ server <- function(input, output) {
            "hex_shop_Hansen" = mrt_shop_boxplot)
   })
   
-  output$mapPlot_hansen1 <- renderTmap({
+  output$mapPlot_hansen1 <- renderPlot({
     tm_shape(get(input$variable2)) + 
       tm_fill(col = "accHansen",
               n = 10,
@@ -308,7 +308,7 @@ server <- function(input, output) {
            "hex_shop_KD2SFCA" = mrt_shop_boxplot_kd2sfca)
   })
   
-  output$mapPlot_kd2sfca1 <- renderTmap({
+  output$mapPlot_kd2sfca1 <- renderPlot({
     tm_shape(get(input$variable3)) + 
       tm_fill(col = "accKD2SFCA",
               n = 10,
@@ -379,7 +379,7 @@ server <- function(input, output) {
            "hex_shop_SAM" = mrt_shop_boxplot_sam)
   })
   
-  output$mapPlot_sam1 <- renderTmap({
+  output$mapPlot_sam1 <- renderPlot({
     tm_shape(get(input$variable4)) + 
       tm_fill(col = "accSAM",
               n = 10,
