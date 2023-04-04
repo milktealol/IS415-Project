@@ -5,9 +5,9 @@ account: idccy
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 8758262
-bundleId: 7046153
+bundleId: 7048681
 url: https://idccy.shinyapps.io/Transit-Ability/
-when: 1680584156.6025
-lastSyncTime: 1680584156.60252
+when: 1680624804.16637
+lastSyncTime: 1680624804.16639
 asMultiple: FALSE
 asStatic: FALSE

@@ -66,6 +66,7 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
+                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>MRT x Mapping Variable</b>")),
                  tmapOutput("mapPlot_eda1",
                             width = "100%",
@@ -99,6 +100,7 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
+                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
                  plotOutput("mapPlot_hansen1", width = "100%", height = 400),
                  br(),
@@ -134,6 +136,7 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
+                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
                  plotOutput("mapPlot_kd2sfca1", width = "100%", height = 400),
                  br(),
@@ -146,7 +149,7 @@ ui <- fluidPage(
                  
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-                 plotOutput("mapPlot_kd2sfcan3", width = "100%", height = 400),
+                 plotOutput("mapPlot_kd2sfca3", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
                )
@@ -169,6 +172,7 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
+                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
                  plotOutput("mapPlot_sam1", width = "100%", height = 400),
                  br(),
@@ -355,8 +359,7 @@ server <- function(input, output) {
       stat_summary(fun.y = "mean", 
                    geom = "point", 
                    colour = "red", 
-                   size = 2) +
-      theme(plot.width = unit(8, "cm"))
+                   size = 2)
   })
   
   
@@ -426,8 +429,7 @@ server <- function(input, output) {
       stat_summary(fun.y = "mean", 
                    geom = "point", 
                    colour = "red", 
-                   size = 2) +
-      theme(plot.width = unit(8, "cm"))
+                   size = 2)
   })
   
 }
