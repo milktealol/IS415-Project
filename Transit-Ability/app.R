@@ -1,7 +1,6 @@
 pacman::p_load(shiny, sf, tidyverse, tmap, DT, sp, dplyr, ggplot2)
 
 mrt <- readRDS("data/model/mrt_sf.rds")
-mrt_rail <- readRDS("data/model/rail_sf.rds")
 tourism <- readRDS("data/model/tourism_sf.rds")
 shopping <- readRDS("data/model/shopping_sf.rds")
 mpsz <- readRDS("data/model/mpsz.rds")
@@ -199,7 +198,6 @@ server <- function(input, output) {
   # EDA
   output$mapPlot_eda1 <- renderTmap({
     tmap_options(check.and.fix = TRUE) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid", scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.5, size=0.07) +
@@ -214,7 +212,6 @@ server <- function(input, output) {
       tm_fill("DEPENDENCY",
               breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
       tm_borders(lwd = 0.1,  alpha = 1) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
@@ -248,7 +245,6 @@ server <- function(input, output) {
               style = "quantile",
               border.col = "black",
               border.lwd = 1) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
@@ -262,7 +258,6 @@ server <- function(input, output) {
   output$mapPlot_hansen2 <- renderTmap({
     tm_shape(hansen1()) +
       tm_symbols(size = 0.5) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
@@ -319,7 +314,6 @@ server <- function(input, output) {
               style = "quantile",
               border.col = "black",
               border.lwd = 1) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
@@ -333,7 +327,6 @@ server <- function(input, output) {
   output$mapPlot_kd2sfca2 <- renderTmap({
     tm_shape(kd2sfca1()) +
       tm_symbols(size = 0.5) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
@@ -389,7 +382,6 @@ server <- function(input, output) {
               style = "quantile",
               border.col = "black",
               border.lwd = 1) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
@@ -403,7 +395,6 @@ server <- function(input, output) {
   output$mapPlot_sam2 <- renderTmap({
     tm_shape(sam1()) +
       tm_symbols(size = 0.5) +
-      tm_shape(mrt_rail) +
       tm_lines(lty = "solid",
                scale = 1) +
       tm_shape(mrt) +
