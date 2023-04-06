@@ -74,7 +74,7 @@ ui <- fluidPage(
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  br(),
                  tags$p(HTML("<b>MRT x Population Density</b>")),
-                 plotOutput("mapPlot_eda2",
+                 tmapOutput("mapPlot_eda2",
                             width = "100%",
                             height = 400),
                  br(),
@@ -101,7 +101,7 @@ ui <- fluidPage(
                mainPanel(
                  tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-                 plotOutput("mapPlot_hansen1", width = "100%", height = 400),
+                 tmapOutput("mapPlot_hansen1", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  
@@ -137,7 +137,7 @@ ui <- fluidPage(
                mainPanel(
                  tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-                 plotOutput("mapPlot_kd2sfca1", width = "100%", height = 400),
+                 tmapOutput("mapPlot_kd2sfca1", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  
@@ -173,7 +173,7 @@ ui <- fluidPage(
                mainPanel(
                  tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-                 plotOutput("mapPlot_sam1", width = "100%", height = 400),
+                 tmapOutput("mapPlot_sam1", width = "100%", height = 400),
                  br(),
                  tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                  
@@ -198,7 +198,6 @@ server <- function(input, output) {
   # EDA
   output$mapPlot_eda1 <- renderTmap({
     tmap_options(check.and.fix = TRUE) +
-      tm_lines(lty = "solid", scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.5, size=0.07) +
       tm_shape(get(input$variable1)) +
@@ -207,13 +206,11 @@ server <- function(input, output) {
               view.legend.position = c("right", "bottom"))
   })
   
-  output$mapPlot_eda2 <- renderPlot({
+  output$mapPlot_eda2 <- renderTmap({
     tm_shape(mpsz_popdata2022) +
       tm_fill("DEPENDENCY",
               breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
       tm_borders(lwd = 0.1,  alpha = 1) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.5, size=0.07)+
       tm_view(set.zoom.limits = c(11,14))
@@ -238,15 +235,13 @@ server <- function(input, output) {
            "hex_shop_Hansen" = mrt_shop_boxplot)
   })
   
-  output$mapPlot_hansen1 <- renderPlot({
+  output$mapPlot_hansen1 <- renderTmap({
     tm_shape(get(input$variable2)) + 
       tm_fill(col = "accHansen",
               n = 10,
               style = "quantile",
               border.col = "black",
               border.lwd = 1) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.5, size=0.07)+
       tm_shape(hansen1()) +
@@ -258,8 +253,6 @@ server <- function(input, output) {
   output$mapPlot_hansen2 <- renderTmap({
     tm_shape(hansen1()) +
       tm_symbols(size = 0.5) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.1, size=0.1)+
       tm_shape(hansen2()) +
@@ -307,15 +300,13 @@ server <- function(input, output) {
            "hex_shop_KD2SFCA" = mrt_shop_boxplot_kd2sfca)
   })
   
-  output$mapPlot_kd2sfca1 <- renderPlot({
+  output$mapPlot_kd2sfca1 <- renderTmap({
     tm_shape(get(input$variable3)) + 
       tm_fill(col = "accKD2SFCA",
               n = 10,
               style = "quantile",
               border.col = "black",
               border.lwd = 1) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.5, size=0.07)+
       tm_shape(kd2sfca1()) +
@@ -327,8 +318,6 @@ server <- function(input, output) {
   output$mapPlot_kd2sfca2 <- renderTmap({
     tm_shape(kd2sfca1()) +
       tm_symbols(size = 0.5) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.1, size=0.1)+
       tm_shape(kd2sfca2()) +
@@ -375,15 +364,13 @@ server <- function(input, output) {
            "hex_shop_SAM" = mrt_shop_boxplot_sam)
   })
   
-  output$mapPlot_sam1 <- renderPlot({
+  output$mapPlot_sam1 <- renderTmap({
     tm_shape(get(input$variable4)) + 
       tm_fill(col = "accSAM",
               n = 10,
               style = "quantile",
               border.col = "black",
               border.lwd = 1) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.5, size=0.07)+
       tm_shape(sam1()) +
@@ -395,8 +382,6 @@ server <- function(input, output) {
   output$mapPlot_sam2 <- renderTmap({
     tm_shape(sam1()) +
       tm_symbols(size = 0.5) +
-      tm_lines(lty = "solid",
-               scale = 1) +
       tm_shape(mrt) +
       tm_dots(alph=0.1, size=0.1)+
       tm_shape(sam2()) +
