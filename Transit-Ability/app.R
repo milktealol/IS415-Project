@@ -65,7 +65,6 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>MRT x Mapping Variable</b>")),
                  tmapOutput("mapPlot_eda1",
                             width = "100%",
@@ -99,7 +98,6 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
                  tmapOutput("mapPlot_hansen1", width = "100%", height = 400),
                  br(),
@@ -135,7 +133,6 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
                  tmapOutput("mapPlot_kd2sfca1", width = "100%", height = 400),
                  br(),
@@ -171,7 +168,6 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Due to rendering constrains, please refresh each time you visit any tab.</b>")),
                  tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
                  tmapOutput("mapPlot_sam1", width = "100%", height = 400),
                  br(),
