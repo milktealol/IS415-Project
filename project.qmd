@@ -33,6 +33,14 @@ mpsz <- st_transform(mpsz, 3414)
 ```
 
 ```{r}
+is.null(mpsz)
+```
+
+```{r}
+mpsz <- st_make_valid(mpsz)
+```
+
+```{r}
 write_rds(mpsz, "data/model/mpsz.rds")
 ```
 
@@ -95,6 +103,18 @@ st_is_valid(rail_sf)
 
 ```{r}
 rail_sf <- st_make_valid(rail_sf)
+```
+
+```{r}
+is.null(rail_sf)
+```
+
+```{r}
+rail_sf <- na.omit(rail_sf)
+```
+
+```{r}
+summary(rail_sf)
 ```
 
 ```{r}
@@ -214,17 +234,31 @@ summary(mpsz_popdata2022$DEPENDENCY)
 ## MRT & MPSZ
 
 ```{r}
+mrt_mpsz <- st_join(mrt_sf, mpsz)
+```
+
+```{r}
+mrt_mpsz <- mrt_mpsz %>%
+  select(c(1,7))
+```
+
+```{r}
+mrt_mpsz <- na.omit(mrt_mpsz)
+```
+
+```{r}
 # MRT vs MPSZ
 tmap_mode('view')
 tmap_options(check.and.fix = TRUE) +
 tm_shape(mpsz) +
   tm_polygons() +
-tm_shape(rail_sf) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt_sf) +
-  tm_dots(alph=0.5, size=0.07)+
+tm_shape(mrt_mpsz) +
+  tm_dots(alph=0.5, size=0.07) +
   tm_view(set.zoom.limits = c(11,14))
+```
+
+```{r}
+write_rds(mrt_mpsz, "data/model/mrt_mpsz.rds")
 ```
 
 ## MRT & Population Density
@@ -239,7 +273,7 @@ tm_shape(mpsz_popdata2022) +
 tm_shape(rail_sf) +
   tm_lines(lty = "solid",
            scale = 1) +
-tm_shape(mrt_sf) +
+tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14))
 ```
@@ -255,7 +289,7 @@ tm_shape(tourism_sf) +
 tm_shape(rail_sf) +
   tm_lines(lty = "solid",
            scale = 1) +
-tm_shape(mrt_sf) +
+tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14))
 ```
@@ -296,7 +330,7 @@ shopping <- readRDS("data/model/shopping_sf.rds")
 
 ```{r}
 # Import MRT Stations
-mrt <- readRDS("data/model/mrt_sf.rds")
+mrt_mpsz <- readRDS("data/model/mrt_mpsz.rds")
 ```
 
 ```{r}
@@ -313,7 +347,7 @@ hexagon <- hexagon %>%
 ```
 
 ```{r}
-mrt <- mrt %>%
+mrt_mpsz <- mrt_mpsz %>%
   mutate(demand = 100)
 ```
 
@@ -375,7 +409,7 @@ tm_shape(hex_tour_Hansen,
 tm_shape(mrt_rail) +
   tm_lines(lty = "solid",
            scale = 1) +
-tm_shape(mrt) +
+tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14)) +
 tm_shape(tourism) +
