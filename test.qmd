@@ -398,6 +398,15 @@ hex_mpsz <- st_join(hex_tour_Hansen, mpsz)
 ```
 
 ```{r}
+hex_mpsz_region <- hex_mpsz %>%
+  filter(REGION_N == "CENTRAL REGION")
+```
+
+```{r}
+summary(hex_mpsz_region)
+```
+
+```{r}
 tmap_mode("view")
 tm_shape(hex_mpsz[hex_mpsz$REGION_N == 'CENTRAL REGION',],
          bbox = st_bbox(hex_tour_Hansen)) + 
