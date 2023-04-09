@@ -1,4 +1,5 @@
-pacman::p_load(shiny, sf, tidyverse, tmap, DT, sp, dplyr, ggplot2, SpatialAcc)
+pacman::p_load(shiny, sf, tidyverse, tmap, DT, sp, dplyr, ggplot2, SpatialAcc, bslib, shinycustomloader)
+
 
 # Fix Stuff
 hexagon <- readRDS("data/model/hexagon_sf.rds")
@@ -17,8 +18,13 @@ park <- readRDS("data/model/park_sf.rds")
 supermarket <- readRDS("data/model/supermarket_sf.rds")
 primaryschool <- readRDS("data/model/primaryschool_sf.rds")
 
+loaderGif <- "subway-map-singapore-loading.gif"
+# options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
+
 # Define UI for application that draws a histogram
 ui <- fluidPage(
+  
+  theme = bs_theme(version = 5, bootswatch = "morph"),
   
   # Application title
   titlePanel("Transit-Ability - Group 5 - IS415"),
@@ -27,7 +33,7 @@ ui <- fluidPage(
   tabsetPanel(
     # First tab
     tabPanel("Overview",
-             tags$image(src = "data/image/logo.png"),
+             tags$image(src = "logo.png", width=300,height=300),
              tags$p("Project Transit-Ability helps Singaporeans throughout the city by analyzing 
                       the spatial accessibility using different methods from MRT/LRT stations to 
                       relevant locations.")
@@ -36,264 +42,283 @@ ui <- fluidPage(
     # Second tab
     tabPanel("EDA",
              # Sidebar panel
-             sidebarPanel(
-               selectInput(
-                 inputId = "mapvariable",
-                 label = "Mapping Variable:",
-                 choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping",
-                             "Child Cares" = "childcare",
-                             "Elderly Cares" = "eldercare",
-                             "Hawker Centres" = "hawker",
-                             "Kindergartens" = "kindergarten",
-                             "Parks" = "park",
-                             "Supermarkets" = "supermarket",
-                             "Primary Schools" = "primaryschool"),
-                 selected = "tourism"
+             sidebarLayout(position = "left",
+               sidebarPanel(
+                 selectInput(
+                   inputId = "mapvariable",
+                   label = "Mapping Variable:",
+                   choices = c("Tourist Attraction" = "tourism",
+                               "Shopping Malls" = "shopping",
+                               "Child Cares" = "childcare",
+                               "Elderly Cares" = "eldercare",
+                               "Hawker Centres" = "hawker",
+                               "Kindergartens" = "kindergarten",
+                               "Parks" = "park",
+                               "Supermarkets" = "supermarket",
+                               "Primary Schools" = "primaryschool"),
+                   selected = "tourism"
+                 ),
+                 tags$p("Change the Mapping Variable above to view the different 
+                          locations with the MRT & LRT lines on the Singapore map."),
+                 submitButton("Apply Changes")
                ),
-               tags$p("Change the Mapping Variable above to view the different 
-                        locations with the MRT & LRT lines on the Singapore map."),
-               submitButton("Apply Changes")
-             ),
-             # Main panel
-             mainPanel(
-               tags$p(HTML("<b>MRT x Mapping Variable</b>")),
-               tmapOutput("mapPlot_eda1",
-                          width = "100%",
-                          height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT x Population Density</b>")),
-               tmapOutput("mapPlot_eda2",
-                          width = "100%",
-                          height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+               # Main panel
+               mainPanel(
+                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_eda1",
+                            width = "100%",
+                            height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT x Population Density</b>")),
+                 withLoader(tmapOutput("mapPlot_eda2",
+                            width = "100%",
+                            height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+               ),
              ),
     ),
     
     # Third tab
     tabPanel("Hansen Method",
              # Sidebar panel
-             sidebarPanel(
-               width = 3,
-               selectInput(
-                 inputId = "mapvariable_Hansen",
-                 label = "Mapping Variable:",
-                 choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping",
-                             "Child Cares" = "childcare",
-                             "Elderly Cares" = "eldercare",
-                             "Hawker Centres" = "hawker",
-                             "Kindergartens" = "kindergarten",
-                             "Parks" = "park",
-                             "Supermarkets" = "supermarket",
-                             "Primary Schools" = "primaryschool"),
-                 selected = "tourism"
+             sidebarLayout(position = "left",
+               sidebarPanel(
+                 width = 3,
+                 selectInput(
+                   inputId = "mapvariable_Hansen",
+                   label = "Mapping Variable:",
+                   choices = c("Tourist Attraction" = "tourism",
+                               "Shopping Malls" = "shopping",
+                               "Child Cares" = "childcare",
+                               "Elderly Cares" = "eldercare",
+                               "Hawker Centres" = "hawker",
+                               "Kindergartens" = "kindergarten",
+                               "Parks" = "park",
+                               "Supermarkets" = "supermarket",
+                               "Primary Schools" = "primaryschool"),
+                   selected = "tourism"
+                 ),
+                 tags$p("Change the Mapping Variable above to view the different 
+             locations with the MRT & LRT lines on the Singapore map."),
+                 numericInput("userdemand", "Demand:", 100, min = 100),
+                 numericInput("usercapacity", "Capacity:", 100, min = 100),
+                 selectInput(
+                   inputId = "region",
+                   label = "Region:",
+                   choices = c("All Region" = "allregion",
+                               "Central Region" = "CENTRAL REGION",
+                               "West Region" = "WEST REGION",
+                               "East Region" = "EAST REGION",
+                               "North-East Region" = "NORTH-EAST REGION",
+                               "North" = "NORTH REGION")
+                 ),
+                 selectInput( inputId = "colour",
+                              label = "Mapping Variable Colour:",
+                              choices = list("Grey" = "grey",
+                                             "White" = "white",
+                                             "Yellow" = "yellow",
+                                             "Green" = "green",
+                                             "Blue" = "blue",
+                                             "Pink" = "pink",
+                                             "Purple" = "purple",
+                                             "Cyan" = "cyan",
+                                             "Lime Green" = "limegreen"),
+                              selected = "grey"),
+                 selectInput( inputId = "shadeColor",
+                              label = "Hexagon Variable Colour:",
+                              choices = list("Yellow Orange Brown" = "YlOrBr",
+                                             "Yellow Orange Red" = "YlOrRd",
+                                             "Purple Blue Green" = "PuBuGn",
+                                             "Red Blue" = "RdBu",
+                                             "Blue Green" = "BuGn",
+                                             "Blue" = "Blues"),
+                              selected = "YlOrBr"),
+                 submitButton("Apply Changes")
                ),
-               tags$p("Change the Mapping Variable above to view the different 
-           locations with the MRT & LRT lines on the Singapore map."),
-               numericInput("userdemand", "Demand:", 100, min = 100),
-               numericInput("usercapacity", "Capacity:", 100, min = 100),
-               selectInput(
-                 inputId = "region",
-                 label = "Region:",
-                 choices = c("All Region" = "allregion",
-                             "Central Region" = "CENTRAL REGION",
-                             "West Region" = "WEST REGION",
-                             "East Region" = "EAST REGION",
-                             "North-East Region" = "NORTH-EAST REGION",
-                             "North" = "NORTH REGION")
-               ),
-               selectInput( inputId = "colour",
-                            label = "Mapping Variable Colour:",
-                            choices = list("Grey" = "grey",
-                                           "White" = "white",
-                                           "Yellow" = "yellow",
-                                           "Green" = "green",
-                                           "Blue" = "blue",
-                                           "Pink" = "pink",
-                                           "Purple" = "purple",
-                                           "Cyan" = "cyan",
-                                           "Lime Green" = "limegreen"),
-                            selected = "grey"),
-               selectInput( inputId = "shadeColor",
-                            label = "Hexagon Variable Colour:",
-                            choices = list("Yellow Orange Brown" = "YlOrBr",
-                                           "Yellow Orange Red" = "YlOrRd",
-                                           "Purple Blue Green" = "PuBuGn",
-                                           "Red Blue" = "RdBu",
-                                           "Blue Green" = "BuGn",
-                                           "Blue" = "Blues"),
-                            selected = "YlOrBr"),
-               submitButton("Apply Changes")
+               # Main panel
+               mainPanel(
+                 tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_hansen1", width = "100%", height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_hansen2", width = "100%", height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
+                 withLoader(plotOutput("mapPlot_hansen3", width = "100%", height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+               )
              ),
-             # Main panel
-             mainPanel(
-               tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-               tmapOutput("mapPlot_hansen1", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT x Mapping Variable</b>")),
-               tmapOutput("mapPlot_hansen2", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-               plotOutput("mapPlot_hansen3", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
-             )
     ),
     # Fourth tab
     tabPanel("KD2SFCA Method",
              # Sidebar panel
-             sidebarPanel(
-               width = 3,
-               selectInput(
-                 inputId = "mapvariable_KD2SFCA",
-                 label = "Mapping Variable:",
-                 choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping",
-                             "Child Cares" = "childcare",
-                             "Elderly Cares" = "eldercare",
-                             "Hawker Centres" = "hawker",
-                             "Kindergartens" = "kindergarten",
-                             "Parks" = "park",
-                             "Supermarkets" = "supermarket",
-                             "Primary Schools" = "primaryschool"),
-                 selected = "tourism"
+             sidebarLayout(position = "left",
+               sidebarPanel(
+                 width = 3,
+                 selectInput(
+                   inputId = "mapvariable_KD2SFCA",
+                   label = "Mapping Variable:",
+                   choices = c("Tourist Attraction" = "tourism",
+                               "Shopping Malls" = "shopping",
+                               "Child Cares" = "childcare",
+                               "Elderly Cares" = "eldercare",
+                               "Hawker Centres" = "hawker",
+                               "Kindergartens" = "kindergarten",
+                               "Parks" = "park",
+                               "Supermarkets" = "supermarket",
+                               "Primary Schools" = "primaryschool"),
+                   selected = "tourism"
+                 ),
+                 tags$p("Change the Mapping Variable above to view the different 
+             locations with the MRT & LRT lines on the Singapore map."),
+                 numericInput("userdemand_KD2SFCA", "Demand:", 100, min = 100),
+                 numericInput("usercapacity_KD2SFCA", "Capacity:", 100, min = 100),
+                 selectInput(
+                   inputId = "region_KD2SFCA",
+                   label = "Region:",
+                   choices = c("All Region" = "allregion",
+                               "Central Region" = "CENTRAL REGION",
+                               "West Region" = "WEST REGION",
+                               "East Region" = "EAST REGION",
+                               "North-East Region" = "NORTH-EAST REGION",
+                               "North" = "NORTH REGION")
+                 ),
+                 selectInput( inputId = "colour_KD2SFCA",
+                              label = "Mapping Variable Colour:",
+                              choices = list("Grey" = "grey",
+                                             "White" = "white",
+                                             "Yellow" = "yellow",
+                                             "Green" = "green",
+                                             "Blue" = "blue",
+                                             "Pink" = "pink",
+                                             "Purple" = "purple",
+                                             "Cyan" = "cyan",
+                                             "Lime Green" = "limegreen"),
+                              selected = "grey"),
+                 selectInput( inputId = "shadeColor",
+                              label = "Hexagon Variable Colour:",
+                              choices = list("Yellow Orange Brown" = "YlOrBr",
+                                             "Yellow Orange Red" = "YlOrRd",
+                                             "Purple Blue Green" = "PuBuGn",
+                                             "Red Blue" = "RdBu",
+                                             "Blue Green" = "BuGn",
+                                             "Blue" = "Blues"),
+                              selected = "YlOrBr"),
+                 submitButton("Apply Changes")
                ),
-               tags$p("Change the Mapping Variable above to view the different 
-           locations with the MRT & LRT lines on the Singapore map."),
-               numericInput("userdemand_KD2SFCA", "Demand:", 100, min = 100),
-               numericInput("usercapacity_KD2SFCA", "Capacity:", 100, min = 100),
-               selectInput(
-                 inputId = "region_KD2SFCA",
-                 label = "Region:",
-                 choices = c("All Region" = "allregion",
-                             "Central Region" = "CENTRAL REGION",
-                             "West Region" = "WEST REGION",
-                             "East Region" = "EAST REGION",
-                             "North-East Region" = "NORTH-EAST REGION",
-                             "North" = "NORTH REGION")
-               ),
-               selectInput( inputId = "colour_KD2SFCA",
-                            label = "Mapping Variable Colour:",
-                            choices = list("Grey" = "grey",
-                                           "White" = "white",
-                                           "Yellow" = "yellow",
-                                           "Green" = "green",
-                                           "Blue" = "blue",
-                                           "Pink" = "pink",
-                                           "Purple" = "purple",
-                                           "Cyan" = "cyan",
-                                           "Lime Green" = "limegreen"),
-                            selected = "grey"),
-               selectInput( inputId = "shadeColor",
-                            label = "Hexagon Variable Colour:",
-                            choices = list("Yellow Orange Brown" = "YlOrBr",
-                                           "Yellow Orange Red" = "YlOrRd",
-                                           "Purple Blue Green" = "PuBuGn",
-                                           "Red Blue" = "RdBu",
-                                           "Blue Green" = "BuGn",
-                                           "Blue" = "Blues"),
-                            selected = "YlOrBr"),
-               submitButton("Apply Changes")
+               # Main panel
+               mainPanel(
+                 tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_KD2SFCA1", width = "100%", height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_KD2SFCA2", width = "100%", height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
+                 withLoader(plotOutput("mapPlot_KD2SFCA3", width = "100%", height = 400), type="image", 
+                            loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+               )
              ),
-             # Main panel
-             mainPanel(
-               tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-               tmapOutput("mapPlot_KD2SFCA1", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT x Mapping Variable</b>")),
-               tmapOutput("mapPlot_KD2SFCA2", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-               plotOutput("mapPlot_KD2SFCA3", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
-             )
     ),
     # Fifth tab
     tabPanel("SAM Method",
              # Sidebar panel
-             sidebarPanel(
-               width = 3,
-               selectInput(
-                 inputId = "mapvariable_SAM",
-                 label = "Mapping Variable:",
-                 choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping",
-                             "Child Cares" = "childcare",
-                             "Elderly Cares" = "eldercare",
-                             "Hawker Centres" = "hawker",
-                             "Kindergartens" = "kindergarten",
-                             "Parks" = "park",
-                             "Supermarkets" = "supermarket",
-                             "Primary Schools" = "primaryschool"),
-                 selected = "tourism"
+             sidebarLayout(position = "left",
+               sidebarPanel(
+                 width = 3,
+                 selectInput(
+                   inputId = "mapvariable_SAM",
+                   label = "Mapping Variable:",
+                   choices = c("Tourist Attraction" = "tourism",
+                               "Shopping Malls" = "shopping",
+                               "Child Cares" = "childcare",
+                               "Elderly Cares" = "eldercare",
+                               "Hawker Centres" = "hawker",
+                               "Kindergartens" = "kindergarten",
+                               "Parks" = "park",
+                               "Supermarkets" = "supermarket",
+                               "Primary Schools" = "primaryschool"),
+                   selected = "tourism"
+                 ),
+                 tags$p("Change the Mapping Variable above to view the different 
+             locations with the MRT & LRT lines on the Singapore map."),
+                 numericInput("userdemand_SAM", "Demand:", 100, min = 100),
+                 numericInput("usercapacity_SAM", "Capacity:", 100, min = 100),
+                 selectInput(
+                   inputId = "region_SAM",
+                   label = "Region:",
+                   choices = c("All Region" = "allregion",
+                               "Central Region" = "CENTRAL REGION",
+                               "West Region" = "WEST REGION",
+                               "East Region" = "EAST REGION",
+                               "North-East Region" = "NORTH-EAST REGION",
+                               "North" = "NORTH REGION")
+                 ),
+                 selectInput( inputId = "colour_SAM",
+                              label = "Mapping Variable Colour:",
+                              choices = list("Grey" = "grey",
+                                             "White" = "white",
+                                             "Yellow" = "yellow",
+                                             "Green" = "green",
+                                             "Blue" = "blue",
+                                             "Pink" = "pink",
+                                             "Purple" = "purple",
+                                             "Cyan" = "cyan",
+                                             "Lime Green" = "limegreen"),
+                              selected = "grey"),
+                 selectInput( inputId = "shadeColor",
+                              label = "Hexagon Variable Colour:",
+                              choices = list("Yellow Orange Brown" = "YlOrBr",
+                                             "Yellow Orange Red" = "YlOrRd",
+                                             "Purple Blue Green" = "PuBuGn",
+                                             "Red Blue" = "RdBu",
+                                             "Blue Green" = "BuGn",
+                                             "Blue" = "Blues"),
+                              selected = "YlOrBr"),
+                 submitButton("Apply Changes")
                ),
-               tags$p("Change the Mapping Variable above to view the different 
-           locations with the MRT & LRT lines on the Singapore map."),
-               numericInput("userdemand_SAM", "Demand:", 100, min = 100),
-               numericInput("usercapacity_SAM", "Capacity:", 100, min = 100),
-               selectInput(
-                 inputId = "region_SAM",
-                 label = "Region:",
-                 choices = c("All Region" = "allregion",
-                             "Central Region" = "CENTRAL REGION",
-                             "West Region" = "WEST REGION",
-                             "East Region" = "EAST REGION",
-                             "North-East Region" = "NORTH-EAST REGION",
-                             "North" = "NORTH REGION")
-               ),
-               selectInput( inputId = "colour_SAM",
-                            label = "Mapping Variable Colour:",
-                            choices = list("Grey" = "grey",
-                                           "White" = "white",
-                                           "Yellow" = "yellow",
-                                           "Green" = "green",
-                                           "Blue" = "blue",
-                                           "Pink" = "pink",
-                                           "Purple" = "purple",
-                                           "Cyan" = "cyan",
-                                           "Lime Green" = "limegreen"),
-                            selected = "grey"),
-               selectInput( inputId = "shadeColor",
-                            label = "Hexagon Variable Colour:",
-                            choices = list("Yellow Orange Brown" = "YlOrBr",
-                                           "Yellow Orange Red" = "YlOrRd",
-                                           "Purple Blue Green" = "PuBuGn",
-                                           "Red Blue" = "RdBu",
-                                           "Blue Green" = "BuGn",
-                                           "Blue" = "Blues"),
-                            selected = "YlOrBr"),
-               submitButton("Apply Changes")
+               # Main panel
+               mainPanel(
+                 tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_SAM1", width = "100%", height = 400), type="image", 
+                 loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 withLoader(tmapOutput("mapPlot_SAM2", width = "100%", height = 400), type="image", 
+               loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
+                 withLoader(plotOutput("mapPlot_SAM3", width = "100%", height = 400), type="image", 
+             loader="subway-map-singapore-loading.gif"),
+                 br(),
+                 tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+               )
              ),
-             # Main panel
-             mainPanel(
-               tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
-               tmapOutput("mapPlot_SAM1", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT x Mapping Variable</b>")),
-               tmapOutput("mapPlot_SAM2", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
-               br(),
-               tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
-               plotOutput("mapPlot_SAM3", width = "100%", height = 400),
-               br(),
-               tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
-             )
     ),
   )
 )
