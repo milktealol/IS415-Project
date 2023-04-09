@@ -169,6 +169,190 @@ shopping_sf <- st_as_sf(shopping,
 write_rds(shopping_sf, "data/model/shopping_sf.rds")
 ```
 
+## Childcare
+
+```{r}
+# Childcare
+childcare_sf <- st_read(dsn = "data/geospatial", layer = "CHILDCARE")
+# Assign EPSG Code
+childcare_sf <- st_transform(childcare_sf, 3414) %>%
+  dplyr::select(c(10, 4))
+```
+
+```{r}
+childcare_sf[rowSums(is.na(childcare_sf))!=0,]
+```
+
+```{r}
+st_is_valid(childcare_sf)
+```
+
+```{r}
+rail_sf <- st_make_valid(childcare_sf)
+```
+
+```{r}
+is.null(childcare_sf)
+```
+
+```{r}
+childcare_sf <- na.omit(childcare_sf)
+```
+
+```{r}
+write_rds(childcare_sf, "data/new/childcare_sf.rds")
+```
+
+## Eldercare
+
+```{r}
+# Eldercare
+eldercare_sf <- st_read(dsn = "data/geospatial", layer = "ELDERCARE")
+# Assign EPSG Code
+eldercare_sf <- st_transform(eldercare_sf, 3414) %>%
+  dplyr::select(c(10, 4))
+```
+
+```{r}
+eldercare_sf[rowSums(is.na(eldercare_sf))!=0,]
+```
+
+```{r}
+rail_sf <- st_make_valid(eldercare_sf)
+```
+
+```{r}
+is.null(eldercare_sf)
+```
+
+```{r}
+eldercare_sf <- na.omit(eldercare_sf)
+```
+
+```{r}
+write_rds(eldercare_sf, "data/new/eldercare_sf.rds")
+```
+
+## Hawker Centre
+
+```{r}
+# Hawker Centre
+hawker_sf <- st_read(dsn = "data/geospatial", layer = "HAWKERCENTRE")
+# Assign EPSG Code
+hawker_sf <- st_transform(hawker_sf, 3414) %>%
+  dplyr::select(c(13))
+```
+
+```{r}
+hawker_sf[rowSums(is.na(hawker_sf))!=0,]
+```
+
+```{r}
+rail_sf <- st_make_valid(hawker_sf)
+```
+
+```{r}
+is.null(hawker_sf)
+```
+
+```{r}
+hawker_sf <- na.omit(hawker_sf)
+```
+
+```{r}
+write_rds(hawker_sf, "data/new/hawker_sf.rds")
+```
+
+## Kindergartens
+
+```{r}
+# Kindergartens
+kindergarten_sf <- st_read(dsn = "data/geospatial", layer = "KINDERGARTENS")
+# Assign EPSG Code
+kindergarten_sf <- st_transform(kindergarten_sf, 3414) %>%
+  dplyr::select(c(11, 5))
+```
+
+```{r}
+kindergarten_sf[rowSums(is.na(kindergarten_sf))!=0,]
+```
+
+```{r}
+rail_sf <- st_make_valid(kindergarten_sf)
+```
+
+```{r}
+is.null(kindergarten_sf)
+```
+
+```{r}
+kindergarten_sf <- na.omit(kindergarten_sf)
+```
+
+```{r}
+write_rds(kindergarten_sf, "data/new/kindergarten_sf.rds")
+```
+
+## National Park
+
+```{r}
+# National Park
+national_sf <- st_read(dsn = "data/geospatial", layer = "NATIONALPARKS")
+# Assign EPSG Code
+national_sf <- st_transform(national_sf, 3414) %>%
+  dplyr::select(c(7))
+```
+
+```{r}
+national_sf[rowSums(is.na(national_sf))!=0,]
+```
+
+```{r}
+national_sf <- st_make_valid(national_sf)
+```
+
+```{r}
+is.null(national_sf)
+```
+
+```{r}
+national_sf <- na.omit(national_sf)
+```
+
+```{r}
+write_rds(national_sf, "data/new/national_sf.rds")
+```
+
+## Supermarkets
+
+```{r}
+# Supermarkets
+supermarkets_sf <- st_read(dsn = "data/geospatial", layer = "SUPERMARKETS")
+# Assign EPSG Code
+supermarkets_sf <- st_transform(supermarkets_sf, 3414) %>%
+  dplyr::select(c(1, 5, 6))
+```
+
+```{r}
+supermarkets_sf[rowSums(is.na(supermarkets_sf))!=0,]
+```
+
+```{r}
+supermarkets_sf <- st_make_valid(supermarkets_sf)
+```
+
+```{r}
+is.null(supermarkets_sf)
+```
+
+```{r}
+supermarkets_sf <- na.omit(supermarkets_sf)
+```
+
+```{r}
+write_rds(supermarkets_sf, "data/new/supermarkets_sf.rds")
+```
+
 ## Hexagon
 
 ```{r}
