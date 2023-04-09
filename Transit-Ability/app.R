@@ -9,6 +9,12 @@ mpsz_popdata2022 <- readRDS("data/model/mpsz_popdata2022.rds")
 # Map Variables
 tourism <- readRDS("data/model/tourism_sf.rds")
 shopping <- readRDS("data/model/shopping_sf.rds")
+childcare <- readRDS("data/model/childcare_sf.rds")
+eldercare <- readRDS("data/model/eldercare_sf.rds")
+hawker <- readRDS("data/model/hawker_sf.rds")
+kindergarten <- readRDS("data/model/kindergarten_sf.rds")
+park <- readRDS("data/model/park_sf.rds")
+supermarket <- readRDS("data/model/supermarket_sf.rds")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -34,7 +40,13 @@ ui <- fluidPage(
                  inputId = "mapvariable",
                  label = "Mapping Variable:",
                  choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping"),
+                             "Shopping Malls" = "shopping",
+                             "Child Cares" = "childcare",
+                             "Elderly Cares" = "eldercare",
+                             "Hawker Centres" = "hawker",
+                             "Kindergartens" = "kindergarten",
+                             "Parks" = "park",
+                             "Supermarkets" = "supermarket"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
@@ -68,7 +80,13 @@ ui <- fluidPage(
                  inputId = "mapvariable_Hansen",
                  label = "Mapping Variable:",
                  choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping"),
+                             "Shopping Malls" = "shopping",
+                             "Child Cares" = "childcare",
+                             "Elderly Cares" = "eldercare",
+                             "Hawker Centres" = "hawker",
+                             "Kindergartens" = "kindergarten",
+                             "Parks" = "park",
+                             "Supermarkets" = "supermarket"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
@@ -126,7 +144,13 @@ ui <- fluidPage(
                  inputId = "mapvariable_KD2SFCA",
                  label = "Mapping Variable:",
                  choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping"),
+                             "Shopping Malls" = "shopping",
+                             "Child Cares" = "childcare",
+                             "Elderly Cares" = "eldercare",
+                             "Hawker Centres" = "hawker",
+                             "Kindergartens" = "kindergarten",
+                             "Parks" = "park",
+                             "Supermarkets" = "supermarket"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
@@ -184,7 +208,13 @@ ui <- fluidPage(
                  inputId = "mapvariable_SAM",
                  label = "Mapping Variable:",
                  choices = c("Tourist Attraction" = "tourism",
-                             "Shopping Malls" = "shopping"),
+                             "Shopping Malls" = "shopping",
+                             "Child Cares" = "childcare",
+                             "Elderly Cares" = "eldercare",
+                             "Hawker Centres" = "hawker",
+                             "Kindergartens" = "kindergarten",
+                             "Parks" = "park",
+                             "Supermarkets" = "supermarket"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
