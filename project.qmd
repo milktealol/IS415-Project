@@ -210,7 +210,7 @@ write_rds(childcare_sf, "data/new/childcare_sf.rds")
 eldercare_sf <- st_read(dsn = "data/geospatial", layer = "ELDERCARE")
 # Assign EPSG Code
 eldercare_sf <- st_transform(eldercare_sf, 3414) %>%
-  dplyr::select(c(10, 4))
+  dplyr::select(c(11, 5, 4))
 ```
 
 ```{r}
