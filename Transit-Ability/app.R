@@ -15,6 +15,7 @@ hawker <- readRDS("data/model/hawker_sf.rds")
 kindergarten <- readRDS("data/model/kindergarten_sf.rds")
 park <- readRDS("data/model/park_sf.rds")
 supermarket <- readRDS("data/model/supermarket_sf.rds")
+primaryschool <- readRDS("data/model/primaryschool_sf.rds")
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -46,7 +47,8 @@ ui <- fluidPage(
                              "Hawker Centres" = "hawker",
                              "Kindergartens" = "kindergarten",
                              "Parks" = "park",
-                             "Supermarkets" = "supermarket"),
+                             "Supermarkets" = "supermarket",
+                             "Primary Schools" = "primaryschool"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
@@ -86,7 +88,8 @@ ui <- fluidPage(
                              "Hawker Centres" = "hawker",
                              "Kindergartens" = "kindergarten",
                              "Parks" = "park",
-                             "Supermarkets" = "supermarket"),
+                             "Supermarkets" = "supermarket",
+                             "Primary Schools" = "primaryschool"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
@@ -150,7 +153,8 @@ ui <- fluidPage(
                              "Hawker Centres" = "hawker",
                              "Kindergartens" = "kindergarten",
                              "Parks" = "park",
-                             "Supermarkets" = "supermarket"),
+                             "Supermarkets" = "supermarket",
+                             "Primary Schools" = "primaryschool"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
@@ -214,7 +218,8 @@ ui <- fluidPage(
                              "Hawker Centres" = "hawker",
                              "Kindergartens" = "kindergarten",
                              "Parks" = "park",
-                             "Supermarkets" = "supermarket"),
+                             "Supermarkets" = "supermarket",
+                             "Primary Schools" = "primaryschool"),
                  selected = "tourism"
                ),
                tags$p("Change the Mapping Variable above to view the different 
