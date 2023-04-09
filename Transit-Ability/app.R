@@ -106,7 +106,6 @@ ui <- fluidPage(
                br(),
                tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
                br(),
-               textOutput("result"),
                tags$p(HTML("<b>MRT x Mapping Variable</b>")),
                tmapOutput("mapPlot_hansen2", width = "100%", height = 400),
                br(),
@@ -114,6 +113,64 @@ ui <- fluidPage(
                br(),
                tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
                plotOutput("mapPlot_hansen3", width = "100%", height = 400),
+               br(),
+               tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+             )
+    ),
+    # Fourth tab
+    tabPanel("KD2SFCA Method",
+             # Sidebar panel
+             sidebarPanel(
+               width = 3,
+               selectInput(
+                 inputId = "mapvariable_KD2SFCA",
+                 label = "Mapping Variable:",
+                 choices = c("Tourist Attraction" = "tourism",
+                             "Shopping Malls" = "shopping"),
+                 selected = "tourism"
+               ),
+               tags$p("Change the Mapping Variable above to view the different 
+           locations with the MRT & LRT lines on the Singapore map."),
+               numericInput("userdemand_KD2SFCA", "Demand:", 100, min = 100),
+               numericInput("usercapacity_KD2SFCA", "Capacity:", 100, min = 100),
+               selectInput(
+                 inputId = "region_KD2SFCA",
+                 label = "Region:",
+                 choices = c("All Region" = "allregion",
+                             "Central Region" = "CENTRAL REGION",
+                             "West Region" = "WEST REGION",
+                             "East Region" = "EAST REGION",
+                             "North-East Region" = "NORTH-EAST REGION",
+                             "North" = "NORTH REGION")
+               ),
+               selectInput( inputId = "colour_KD2SFCA",
+                            label = "Mapping Variable Colour:",
+                            choices = list("Grey" = "grey",
+                                           "White" = "white",
+                                           "Yellow" = "yellow",
+                                           "Green" = "green",
+                                           "Blue" = "blue",
+                                           "Pink" = "pink",
+                                           "Purple" = "purple",
+                                           "Cyan" = "cyan",
+                                           "Lime Green" = "limegreen"),
+                            selected = "grey"),
+               submitButton("Apply Changes")
+             ),
+             # Main panel
+             mainPanel(
+               tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+               tmapOutput("mapPlot_KD2SFCA1", width = "100%", height = 400),
+               br(),
+               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+               br(),
+               tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+               tmapOutput("mapPlot_KD2SFCA2", width = "100%", height = 400),
+               br(),
+               tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+               br(),
+               tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
+               plotOutput("mapPlot_KD2SFCA3", width = "100%", height = 400),
                br(),
                tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
              )
@@ -148,7 +205,6 @@ server <- function(input, output) {
   # Henson
   
   output$mapPlot_hansen1 <- renderTmap({
-    
     hexagon <- hexagon %>%
       dplyr::select(fid) %>%
       mutate(demand = input$userdemand)
@@ -345,6 +401,214 @@ server <- function(input, output) {
     
     ggplot(data = boxplot, 
            aes(y = log(accHansen), 
+               x = REGION_N)) +
+      geom_boxplot() +
+      stat_summary(fun.y = "mean", 
+                   geom = "point", 
+                   colour = "red", 
+                   size = 2)
+  })
+
+  # KD2SFCA
+  
+  output$mapPlot_KD2SFCA1 <- renderTmap({
+    
+    hexagon <- hexagon %>%
+      dplyr::select(fid) %>%
+      mutate(demand = input$userdemand_KD2SFCA)
+    
+    mapvariable <- get(input$mapvariable_KD2SFCA)
+    mapvariable <- mapvariable %>%
+      mutate(capacity = input$usercapacity_KD2SFCA)
+    
+    
+    hexagon_coord <- st_centroid(hexagon) %>% 
+      st_coordinates()
+    
+    mapvariable_coord <- st_coordinates(mapvariable)
+    
+    hex_mapvariable <- SpatialAcc::distance(hexagon_coord,
+                                            mapvariable_coord,
+                                            type = "euclidean")
+    
+    hex_mapvariable_km <- as.matrix(hex_mapvariable/1000)
+    
+    acc_KD2SFCA <- data.frame(ac(hexagon$demand,
+                                mapvariable$capacity,
+                                hex_mapvariable_km,
+                                d0 = 50,
+                                power = 2,
+                                family = "KD2SFCA"))
+    
+    colnames(acc_KD2SFCA) <- "accKD2SFCA"
+    acc_KD2SFCA <- as_tibble(acc_KD2SFCA)
+    hex_mapvariable_KD2SFCA <- bind_cols(hexagon, acc_KD2SFCA)
+    
+    # Joining of MPSZ
+    mrt <- st_join(mrt, mpsz,
+                   join = st_intersects)
+    mapvariable <- st_join(mapvariable, mpsz,
+                           join = st_intersects)
+    hexagon <- st_join(hex_mapvariable_KD2SFCA, mpsz,
+                       join = st_intersects)
+    
+    # Check if region parameter is selected
+    if (input$region_KD2SFCA == "allregion") {
+      # Use full data
+      hexagon_region <- hexagon
+      mapvariable_region <- mapvariable
+      mrt_region <- mrt
+    } else {
+      # Filter data for selected region
+      hexagon_region <- hexagon %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+      mrt_region <- mrt %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+      mapvariable_region <- mapvariable %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+    }
+    
+    tm_shape(hexagon_region,
+             bbox = st_bbox(hex_mapvariable_KD2SFCA)) + 
+      tm_fill(col = "accKD2SFCA",
+              n = 10,
+              style = "quantile",
+              border.col = "black",
+              border.lwd = 1) +
+      tm_shape(mrt_region) +
+      tm_dots(alph=0.7, size=0.07)+
+      tm_shape(mapvariable_region) +
+      tm_symbols(size = 0.3, col = input$colour_KD2SFCA) +
+      tm_view(set.zoom.limits = c(11,14),
+              view.legend.position = c("right", "bottom"))
+  })
+  
+  output$mapPlot_KD2SFCA2 <- renderTmap({
+    
+    mrt <- mrt %>%
+      mutate(demand = input$userdemand_KD2SFCA)
+    
+    mapvariable <- get(input$mapvariable_KD2SFCA)
+    mapvariable <- mapvariable %>%
+      mutate(capacity = input$usercapacity_KD2SFCA)
+    
+    
+    mrt_coord <- st_centroid(mrt) %>% 
+      st_coordinates()
+    
+    mapvariable_coord <- st_coordinates(mapvariable)
+    
+    mrt_mapvariable <- SpatialAcc::distance(mrt_coord,
+                                            mapvariable_coord,
+                                            type = "euclidean")
+    
+    mrt_mapvariable_km <- as.matrix(mrt_mapvariable/1000)
+    
+    acc_KD2SFCA <- data.frame(ac(mrt$demand,
+                                mapvariable$capacity,
+                                mrt_mapvariable_km,
+                                d0 = 50,
+                                power = 2,
+                                family = "KD2SFCA"))
+    
+    colnames(acc_KD2SFCA) <- "accKD2SFCA"
+    acc_KD2SFCA <- as_tibble(acc_KD2SFCA)
+    mrt_mapvariable_KD2SFCA <- bind_cols(mrt, acc_KD2SFCA)
+    
+    # Joining of MPSZ
+    mrt <- st_join(mrt_mapvariable_KD2SFCA, mpsz,
+                   join = st_intersects)
+    mapvariable <- st_join(mapvariable, mpsz,
+                           join = st_intersects)
+    
+    # Check if region parameter is selected
+    if (input$region_KD2SFCA == "allregion") {
+      # Use full data
+      mapvariable_region <- mapvariable
+      mrt_region <- mrt
+    } else {
+      # Filter data for selected region
+      mrt_region <- mrt %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+      mapvariable_region <- mapvariable %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+    }
+    
+    boxplot <- st_join(mrt_mapvariable_KD2SFCA, mpsz,
+                       join = st_intersects)
+    
+    tm_shape(mrt_region,
+             bbox = st_bbox(mrt_mapvariable_KD2SFCA)) +
+      tm_bubbles(col = "accKD2SFCA",
+                 n = 10,
+                 style = "quantile",
+                 size = 0.2,
+                 border.col = "black",
+                 border.lwd = 1) +
+      tm_view(set.zoom.limits = c(11,14),
+              view.legend.position = c("right", "bottom")) +
+      tm_shape(mapvariable_region) +
+      tm_symbols(size = 0.3, col = input$colour_KD2SFCA) +
+      tm_shape(mrt_region) +
+      tm_dots(alph=0.1, size=0.1)
+  })
+  
+  output$mapPlot_KD2SFCA3 <- renderPlot({
+    
+    mrt <- mrt %>%
+      mutate(demand = input$userdemand_KD2SFCA)
+    
+    mapvariable <- get(input$mapvariable_KD2SFCA)
+    mapvariable <- mapvariable %>%
+      mutate(capacity = input$usercapacity_KD2SFCA)
+    
+    
+    mrt_coord <- st_centroid(mrt) %>% 
+      st_coordinates()
+    
+    mapvariable_coord <- st_coordinates(mapvariable)
+    
+    mrt_mapvariable <- SpatialAcc::distance(mrt_coord,
+                                            mapvariable_coord,
+                                            type = "euclidean")
+    
+    mrt_mapvariable_km <- as.matrix(mrt_mapvariable/1000)
+    
+    acc_KD2SFCA <- data.frame(ac(mrt$demand,
+                                mapvariable$capacity,
+                                mrt_mapvariable_km,
+                                d0 = 50,
+                                power = 2,
+                                family = "KD2SFCA"))
+    
+    colnames(acc_KD2SFCA) <- "accKD2SFCA"
+    acc_KD2SFCA <- as_tibble(acc_KD2SFCA)
+    mrt_mapvariable_KD2SFCA <- bind_cols(mrt, acc_KD2SFCA)
+    
+    # Joining of MPSZ
+    mrt <- st_join(mrt_mapvariable_KD2SFCA, mpsz,
+                   join = st_intersects)
+    mapvariable <- st_join(mapvariable, mpsz,
+                           join = st_intersects)
+    
+    # Check if region parameter is selected
+    if (input$region_KD2SFCA == "allregion") {
+      # Use full data
+      mapvariable_region <- mapvariable
+      mrt_region <- mrt
+    } else {
+      # Filter data for selected region
+      mrt_region <- mrt %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+      mapvariable_region <- mapvariable %>% 
+        filter(REGION_N == input$region_KD2SFCA)
+    }
+    
+    boxplot <- st_join(mrt_mapvariable_KD2SFCA, mpsz,
+                       join = st_intersects)
+    
+    ggplot(data = boxplot, 
+           aes(y = log(accKD2SFCA), 
                x = REGION_N)) +
       geom_boxplot() +
       stat_summary(fun.y = "mean", 
