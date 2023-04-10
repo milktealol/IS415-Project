@@ -454,9 +454,6 @@ tm_shape(mpsz_popdata2022) +
   tm_fill("DEPENDENCY",
           breaks = c(0, 0.60, 0.70, 0.80, 0.90, 1.00)) +
   tm_borders(lwd = 0.1,  alpha = 1) +
-tm_shape(rail_sf) +
-  tm_lines(lty = "solid",
-           scale = 1) +
 tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14))
@@ -470,9 +467,6 @@ tmap_mode('view')
 tmap_options(check.and.fix = TRUE)
 tm_shape(tourism_sf) +
   tm_dots(size = 0.1, col = 'yellow') +
-tm_shape(rail_sf) +
-  tm_lines(lty = "solid",
-           scale = 1) +
 tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14))
@@ -486,9 +480,6 @@ tmap_mode('view')
 tmap_options(check.and.fix = TRUE)
 tm_shape(shopping_sf) +
   tm_dots(size = 0.1, col = 'yellow') +
-tm_shape(rail_sf) +
-  tm_lines(lty = "solid",
-           scale = 1) +
 tm_shape(mrt_sf) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14))
@@ -590,9 +581,6 @@ tm_shape(hex_tour_Hansen,
           style = "quantile",
           border.col = "black",
           border.lwd = 1) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
 tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14)) +
@@ -640,10 +628,7 @@ tm_shape(hex_tour_KD2SFCA,
           style = "quantile",
           border.col = "black",
           border.lwd = 1) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
+tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14)) +
 tm_shape(tourism) +
@@ -690,10 +675,7 @@ tm_shape(hex_tour_SAM,
           style = "quantile",
           border.col = "black",
           border.lwd = 1) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
+tm_shape(mrt_mpsz) +
   tm_dots(alph=0.5, size=0.07)+
   tm_view(set.zoom.limits = c(11,14)) +
 tm_shape(tourism) +
@@ -716,7 +698,7 @@ tm_shape(tourism) +
 
 ```{r}
 tourism_coord <- st_coordinates(tourism)
-mrt_coord <- st_centroid(mrt) %>%
+mrt_coord <- st_centroid(mrt_mpsz) %>%
   st_coordinates()
 ```
 
@@ -731,7 +713,7 @@ mrt_tour_km <- as.matrix(mrt_tour/1000)
 #### Hansen
 
 ```{r}
-acc_Hansen <- data.frame(ac(mrt$demand,
+acc_Hansen <- data.frame(ac(mrt_mpsz$demand,
                             tourism$capacity,
                             mrt_tour_km,
                             #d0 = 50,
@@ -740,7 +722,7 @@ acc_Hansen <- data.frame(ac(mrt$demand,
 
 colnames(acc_Hansen) <- "accHansen"
 acc_Hansen <- as_tibble(acc_Hansen)
-mrt_tour_Hansen <- bind_cols(mrt, acc_Hansen)
+mrt_tour_Hansen <- bind_cols(mrt_mpsz, acc_Hansen)
 ```
 
 ```{r}
@@ -752,10 +734,7 @@ write_rds(mrt_tour_Hansen, "data/model/mrt_tour_Hansen.rds")
 tmap_mode('view')
 tm_shape(tourism) +
   tm_symbols(size = 0.5) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
+tm_shape(mrt_mpsz) +
   tm_dots(alph=0.1, size=0.1)+
   tm_view(set.zoom.limits = c(11,14)) +
 tm_shape(mrt_tour_Hansen) +
@@ -770,8 +749,7 @@ tm_shape(mrt_tour_Hansen) +
 #### Boxplot
 
 ```{r}
-mrt_tour_boxplot <- st_join(mrt_tour_Hansen, mpsz, 
-                          join = st_intersects)
+mrt_tour_boxplot <- mrt_tour_Hansen
 ```
 
 ```{r}
@@ -781,498 +759,6 @@ write_rds(mrt_tour_boxplot, "data/model/mrt_tour_boxplot.rds")
 ```{r}
 ggplot(data=mrt_tour_boxplot, 
        aes(y = log(accHansen), 
-           x= REGION_N)) +
-  geom_boxplot() +
-  stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   colour = "red", 
-                   size = 2)
-```
-
-#### KD2SFCA
-
-```{r}
-acc_KD2SFCA <- data.frame(ac(mrt$demand,
-                            tourism$capacity,
-                            mrt_tour_km,
-                            d0 = 50,
-                            power = 2,
-                            family = "KD2SFCA"))
-
-colnames(acc_KD2SFCA) <- "accKD2SFCA"
-acc_KD2SFCA <- as_tibble(acc_KD2SFCA)
-mrt_tour_KD2SFCA <- bind_cols(mrt, acc_KD2SFCA)
-```
-
-```{r}
-write_rds(mrt_tour_KD2SFCA, "data/model/mrt_tour_KD2SFCA.rds")
-```
-
-```{r}
-# MRT & Tourism
-tmap_mode('view')
-tm_shape(tourism) +
-  tm_symbols(size = 0.5) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.1, size=0.1)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(mrt_tour_KD2SFCA) +
-  tm_bubbles(col = "accKD2SFCA",
-             n = 5,
-             style = "quantile",
-             size = 0.2,
-             border.col = "black",
-             border.lwd = 1)
-```
-
-#### Boxplot
-
-```{r}
-mrt_tour_boxplot_kd2sfca <- st_join(mrt_tour_KD2SFCA, mpsz, 
-                          join = st_intersects)
-```
-
-```{r}
-write_rds(mrt_tour_boxplot_kd2sfca, "data/model/mrt_tour_boxplot_kd2sfca.rds")
-```
-
-```{r}
-ggplot(data=mrt_tour_boxplot_kd2sfca, 
-       aes(y = log(accKD2SFCA), 
-           x= REGION_N)) +
-  geom_boxplot() +
-  stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   colour = "red", 
-                   size = 2)
-```
-
-#### SAM
-
-```{r}
-acc_SAM <- data.frame(ac(hexagon$demand,
-                            tourism$capacity,
-                            mrt_tour_km,
-                            d0 = 50,
-                            power = 2,
-                            family = "SAM"))
-
-colnames(acc_SAM) <- "accSAM"
-acc_SAM <- as_tibble(acc_SAM)
-mrt_tour_SAM <- bind_cols(hexagon, acc_SAM)
-```
-
-```{r}
-write_rds(mrt_tour_SAM, "data/model/mrt_tour_SAM.rds")
-```
-
-```{r}
-# MRT & Tourism
-tmap_mode('view')
-tm_shape(tourism) +
-  tm_symbols(size = 0.5) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.1, size=0.1)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(mrt_tour_SAM) +
-  tm_bubbles(col = "accSAM",
-             n = 5,
-             style = "quantile",
-             size = 0.2,
-             border.col = "black",
-             border.lwd = 1)
-```
-
-#### Boxplot
-
-```{r}
-mrt_tour_boxplot_sam <- st_join(mrt_tour_SAM, mpsz, 
-                          join = st_intersects)
-```
-
-```{r}
-write_rds(mrt_tour_boxplot_sam, "data/model/mrt_tour_boxplot_sam.rds")
-```
-
-```{r}
-ggplot(data=mrt_tour_boxplot_sam, 
-       aes(y = log(accSAM), 
-           x= REGION_N)) +
-  geom_boxplot() +
-  stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   colour = "red", 
-                   size = 2)
-```
-
-### Hexagon x Shopping
-
-```{r}
-shopping <- shopping %>%
-  mutate(capacity = 100)
-```
-
-```{r}
-shopping_coord <- st_coordinates(shopping)
-hexagon_coord <- st_centroid(hexagon) %>%
-  st_coordinates()
-```
-
-```{r}
-hex_shop <- SpatialAcc::distance(hexagon_coord,
-                                  shopping_coord,
-                                  type = "euclidean")
-
-hex_shop_km <- as.matrix(hex_shop/1000)
-```
-
-#### Hensen
-
-```{r}
-acc_Hansen <- data.frame(ac(hexagon$demand,
-                            shopping$capacity,
-                            hex_shop_km,
-                            #d0 = 50,
-                            power = 2,
-                            family = "Hansen"))
-
-colnames(acc_Hansen) <- "accHansen"
-acc_Hansen <- as_tibble(acc_Hansen)
-hex_shop_Hansen <- bind_cols(hexagon, acc_Hansen)
-```
-
-```{r}
-write_rds(hex_shop_Hansen, "data/model/hex_shop_Hansen.rds")
-```
-
-```{r}
-tmap_mode("view")
-tm_shape(hex_shop_Hansen,
-         bbox = st_bbox(hex_shop_Hansen)) + 
-  tm_fill(col = "accHansen",
-          n = 10,
-          style = "quantile",
-          border.col = "black",
-          border.lwd = 1) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.5, size=0.07)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(shopping) +
-  tm_symbols(size = 0.1) +
-  tm_layout(main.title = "Accessibility to Tourism: Hansen Method",
-            main.title.position = "center",
-            main.title.size = 2,
-            legend.outside = FALSE,
-            legend.height = 0.45, 
-            legend.width = 3.0,
-            legend.format = list(digits = 6),
-            legend.position = c("right", "top"),
-            frame = TRUE) +
-  tm_compass(type="8star", size = 2) +
-  tm_scale_bar(width = 0.15) +
-  tm_grid(lwd = 0.1, alpha = 0.5)
-```
-
-#### KD2SFCA
-
-```{r}
-acc_KD2SFCA <- data.frame(ac(hexagon$demand,
-                            shopping$capacity,
-                            hex_shop_km,
-                            d0 = 50,
-                            power = 2,
-                            family = "KD2SFCA"))
-
-colnames(acc_KD2SFCA) <- "accKD2SFCA"
-acc_KD2SFCA <- as_tibble(acc_KD2SFCA)
-hex_shop_KD2SFCA <- bind_cols(hexagon, acc_KD2SFCA)
-```
-
-```{r}
-write_rds(hex_shop_KD2SFCA, "data/model/hex_shop_KD2SFCA.rds")
-```
-
-```{r}
-tmap_mode("view")
-tm_shape(hex_shop_KD2SFCA,
-         bbox = st_bbox(hex_shop_KD2SFCA)) + 
-  tm_fill(col = "accKD2SFCA",
-          n = 10,
-          style = "quantile",
-          border.col = "black",
-          border.lwd = 1) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.5, size=0.07)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(tourism) +
-  tm_symbols(size = 0.1) +
-  tm_layout(main.title = "Accessibility to Tourism: Hansen Method",
-            main.title.position = "center",
-            main.title.size = 2,
-            legend.outside = FALSE,
-            legend.height = 0.45, 
-            legend.width = 3.0,
-            legend.format = list(digits = 6),
-            legend.position = c("right", "top"),
-            frame = TRUE) +
-  tm_compass(type="8star", size = 2) +
-  tm_scale_bar(width = 0.15) +
-  tm_grid(lwd = 0.1, alpha = 0.5)
-```
-
-#### SAM
-
-```{r}
-acc_SAM <- data.frame(ac(hexagon$demand,
-                            shopping$capacity,
-                            hex_shop_km,
-                            d0 = 50,
-                            power = 2,
-                            family = "SAM"))
-
-colnames(acc_SAM) <- "accSAM"
-acc_SAM <- as_tibble(acc_SAM)
-hex_shop_SAM <- bind_cols(hexagon, acc_SAM)
-```
-
-```{r}
-write_rds(hex_shop_SAM, "data/model/hex_shop_SAM.rds")
-```
-
-```{r}
-tmap_mode("view")
-tm_shape(hex_shop_SAM,
-         bbox = st_bbox(hex_shop_SAM)) + 
-  tm_fill(col = "accSAM",
-          n = 10,
-          style = "quantile",
-          border.col = "black",
-          border.lwd = 1) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.5, size=0.07)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(tourism) +
-  tm_symbols(size = 0.1) +
-  tm_layout(main.title = "Accessibility to Tourism: Hansen Method",
-            main.title.position = "center",
-            main.title.size = 2,
-            legend.outside = FALSE,
-            legend.height = 0.45, 
-            legend.width = 3.0,
-            legend.format = list(digits = 6),
-            legend.position = c("right", "top"),
-            frame = TRUE) +
-  tm_compass(type="8star", size = 2) +
-  tm_scale_bar(width = 0.15) +
-  tm_grid(lwd = 0.1, alpha = 0.5)
-```
-
-### MRT & Shopping
-
-```{r}
-shopping_coord <- st_coordinates(shopping)
-mrt_coord <- st_centroid(mrt) %>%
-  st_coordinates()
-```
-
-```{r}
-mrt_shop <- SpatialAcc::distance(mrt_coord,
-                                  shopping_coord,
-                                  type = "euclidean")
-
-mrt_shop_km <- as.matrix(mrt_shop/1000)
-```
-
-#### Hansen
-
-```{r}
-acc_Hansen <- data.frame(ac(mrt$demand,
-                            shopping$capacity,
-                            mrt_shop_km,
-                            #d0 = 50,
-                            power = 2,
-                            family = "Hansen"))
-
-colnames(acc_Hansen) <- "accHansen"
-acc_Hansen <- as_tibble(acc_Hansen)
-mrt_shop_Hansen <- bind_cols(mrt, acc_Hansen)
-```
-
-```{r}
-write_rds(mrt_shop_Hansen, "data/model/mrt_shop_Hansen.rds")
-```
-
-```{r}
-# MRT & Tourism
-tmap_mode('view')
-tm_shape(shopping) +
-  tm_symbols(size = 0.5) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.1, size=0.1)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(mrt_shop_Hansen) +
-  tm_bubbles(col = "accHansen",
-             n = 5,
-             style = "quantile",
-             size = 0.2,
-             border.col = "black",
-             border.lwd = 1)
-```
-
-#### Boxplot
-
-```{r}
-mrt_shop_boxplot <- st_join(mrt_shop_Hansen, mpsz, 
-                          join = st_intersects)
-```
-
-```{r}
-write_rds(mrt_shop_boxplot, "data/model/mrt_shop_boxplot.rds")
-```
-
-```{r}
-ggplot(data=mrt_shop_boxplot, 
-       aes(y = log(accHansen), 
-           x= REGION_N)) +
-  geom_boxplot() +
-  stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   colour = "red", 
-                   size = 2)
-```
-
-#### KD2SFCA
-
-```{r}
-acc_KD2SFCA <- data.frame(ac(mrt$demand,
-                            shopping$capacity,
-                            mrt_shop_km,
-                            d0 = 50,
-                            power = 2,
-                            family = "KD2SFCA"))
-
-colnames(acc_KD2SFCA) <- "accKD2SFCA"
-acc_KD2SFCA <- as_tibble(acc_KD2SFCA)
-mrt_shop_KD2SFCA <- bind_cols(mrt, acc_KD2SFCA)
-```
-
-```{r}
-write_rds(mrt_shop_KD2SFCA, "data/model/mrt_shop_KD2SFCA.rds")
-```
-
-```{r}
-# MRT & Tourism
-tmap_mode('view')
-tm_shape(tourism) +
-  tm_symbols(size = 0.5) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.1, size=0.1)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(mrt_shop_KD2SFCA) +
-  tm_bubbles(col = "accKD2SFCA",
-             n = 5,
-             style = "quantile",
-             size = 0.2,
-             border.col = "black",
-             border.lwd = 1)
-```
-
-#### Boxplot
-
-```{r}
-mrt_shop_boxplot_kd2sfca <- st_join(mrt_shop_KD2SFCA, mpsz, 
-                          join = st_intersects)
-```
-
-```{r}
-write_rds(mrt_shop_boxplot_kd2sfca, "data/model/mrt_shop_boxplot_kd2sfca.rds")
-```
-
-```{r}
-ggplot(data=mrt_shop_boxplot_kd2sfca, 
-       aes(y = log(accKD2SFCA), 
-           x= REGION_N)) +
-  geom_boxplot() +
-  stat_summary(fun.y = "mean", 
-                   geom = "point", 
-                   colour = "red", 
-                   size = 2)
-```
-
-#### SAM
-
-```{r}
-acc_SAM <- data.frame(ac(mrt$demand,
-                            shopping$capacity,
-                            mrt_shop_km,
-                            d0 = 50,
-                            power = 2,
-                            family = "SAM"))
-
-colnames(acc_SAM) <- "accSAM"
-acc_SAM <- as_tibble(acc_SAM)
-mrt_shop_SAM <- bind_cols(mrt, acc_SAM)
-```
-
-```{r}
-write_rds(mrt_shop_SAM, "data/model/mrt_shop_SAM.rds")
-```
-
-```{r}
-# MRT & Tourism
-tmap_mode('view')
-tm_shape(tourism) +
-  tm_symbols(size = 0.5) +
-tm_shape(mrt_rail) +
-  tm_lines(lty = "solid",
-           scale = 1) +
-tm_shape(mrt) +
-  tm_dots(alph=0.1, size=0.1)+
-  tm_view(set.zoom.limits = c(11,14)) +
-tm_shape(mrt_shop_SAM) +
-  tm_bubbles(col = "accSAM",
-             n = 5,
-             style = "quantile",
-             size = 0.2,
-             border.col = "black",
-             border.lwd = 1)
-```
-
-#### Boxplot
-
-```{r}
-mrt_shop_boxplot_sam <- st_join(mrt_shop_SAM, mpsz, 
-                          join = st_intersects)
-```
-
-```{r}
-write_rds(mrt_shop_boxplot_sam, "data/model/mrt_shop_boxplot_sam.rds")
-```
-
-```{r}
-ggplot(data=mrt_shop_boxplot_sam, 
-       aes(y = log(accSAM), 
            x= REGION_N)) +
   geom_boxplot() +
   stat_summary(fun.y = "mean", 

@@ -85,7 +85,7 @@ Geographical accessibility and spatial interaction models are important consider
 
     -   Examine distribution of data points
 
-    -   Check for outliers in data
+    -   Checking of outliers in data
 
     -   Remove missing data
 
