@@ -137,15 +137,17 @@ Geographical accessibility and spatial interaction models are important consider
 
 ## Storyboard
 
-![](images/Slide1.PNG)
+Our plan is to create a RShiny application that follows these layouts.
 
-![](images/Slide2.PNG)
+![](images/storyboard0.jpg){fig-align="center"}
 
-![](images/Slide3.PNG)
+All the other tabs like Hansen, KD2SFCA, and SAM Method will follow this layout below.
+
+![](images/storyboard1.jpg){fig-align="center"}
 
 ## Application Architecture
 
-![](images/Colorful%20Minimalist%20Business%20Plan%20Infographic%20Chart.gif){width="537"}
+![](images/Colorful%20Minimalist%20Business%20Plan%20Infographic%20Chart.gif){fig-align="center" width="537"}
 
 ## Timeline
 

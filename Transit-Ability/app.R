@@ -27,13 +27,14 @@ ui <- fluidPage(
   theme = bs_theme(version = 5, bootswatch = "morph"),
   
   # Application title
-  titlePanel("Transit-Ability - Group 5 - IS415"),
+  titlePanel("Transit-Ability"),
   
   # Tabs
   tabsetPanel(
     # First tab
     tabPanel("Overview",
              tags$image(src = "logo.png", width=300,height=300),
+             tags$p("IS415 - Geospatial Analytics and Application - Group 5"),
              tags$p("Project Transit-Ability helps Singaporeans throughout the city by analyzing 
                       the spatial accessibility using different methods from MRT/LRT stations to 
                       relevant locations.")
