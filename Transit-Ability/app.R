@@ -19,7 +19,6 @@ supermarket <- readRDS("data/model/supermarket_sf.rds")
 primaryschool <- readRDS("data/model/primaryschool_sf.rds")
 
 loaderGif <- "subway-map-singapore-loading.gif"
-# options(spinner.color="#0275D8", spinner.color.background="#ffffff", spinner.size=2)
 
 # Define UI for application that draws a histogram
 ui <- fluidPage(
@@ -67,7 +66,7 @@ ui <- fluidPage(
                   </div>"),
              
              tags$h2(style="text-align: center;", "Useful Links"),
-             HTML("<div style='display: flex; justify-content: center;'>
+             HTML("<div style='display: flex; justify-content: center; margin-bottom: 80px;'>
                   <ul>
                   <li><a href='https://is415-group-5.netlify.app/'>Project Website</a></li>
                   <li><a href='https://github.com/milktealol/IS415-Project'>Project GitHub</a></li>
