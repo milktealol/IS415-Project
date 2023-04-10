@@ -1,5 +1,5 @@
 ---
-title: "Poster"
+title: "TRANSIT-ABILITY Poster"
 date: "28 February 2023"
 date-modified: "`r Sys.Date()`"
 author: "Daniel Chng, Leon Tan & Zoe Chia "
@@ -11,3 +11,5 @@ execute:
   warning: false
 editor: visual
 ---
+
+![](img/IS415%20-%20Group%205%20Project%20Poster.jpg){fig-alt="Group 5 Project Poster"}

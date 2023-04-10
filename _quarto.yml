@@ -14,7 +14,7 @@ website:
       - text: "Poster"
         href: "poster/poster.html"
       - text: "Shiny App"
-        href: "https://leontanliyang.shinyapps.io/ShinyWorkshopEx/?_ga=2.85313881.170497141.1677572152-999088926.1674193931"
+        href: "https://idccy.shinyapps.io/Transit-Ability/"
       - text: "Research Paper"
         href: "research/research.html"
 
@@ -30,4 +30,3 @@ format:
     toc: true
 
 editor: visual
-

@@ -1,8 +1,0 @@
----
-title: "My Document"
-toc: true
-format:
-  pdf: default
-  acm-pdf:
-    keep-tex: true
----
