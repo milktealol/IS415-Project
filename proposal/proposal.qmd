@@ -42,34 +42,24 @@ Geographical accessibility and spatial interaction models are important consider
 
 -   **Population Density:** Once the location of MRT & LRT stations has been mapped, the next step would be to map out the Population Density of Singapore residents.
 
--   **Measuring Accessibility:** The next step would be to measure accessibility. This can be done based on the max willing walking distance (300m to 700m).
+-   **Measuring Accessibility:** The next step would be to measure accessibility. This can be done using the 3 different methods: Hansen, KD2SFCA & SAM
 
-## Data
+## Datasets
 
--   **Population Density**
-
-    -   <https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution>
-
--   **Singapore Zoning**
-
-    -   <https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea>
-
--   **MRT & LRT Stations**
-
-    -   <https://datamall.lta.gov.sg/content/datamall/en/static-data.html>
-
-    -   <https://www.lta.gov.sg/content/ltagov/en/upcoming_projects.html#rail_expansion>
-
-    -   <https://data.gov.sg/dataset/master-plan-2019-rail-line-layer>
-
--   **Schools**
-
-    -   <https://data.gov.sg/dataset/lta-school-zone>
-    -   <https://data.gov.sg/dataset/listing-of-centres>
-
--   **Places of Interest**
-
-    -   <https://data.gov.sg/dataset/tourist-attractions>
+| Data                | Source                                                                                                                  | Type |
+|------------------------|------------------------|------------------------|
+| Population Density  | [data.gov.sg](https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution) | CSV  |
+| Singapore Zoning    | [data.gov.sg](https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea)                               | SHP  |
+| Primary Schools     | [data.gov.sg](https://data.gov.sg/dataset/school-directory-and-information)                                             | CSV  |
+| MRT & LRT Stations  | [LTA Datamall](https://datamall.lta.gov.sg/content/datamall/en/static-data.html)                                        | SHP  |
+| Hawker Centres      | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Childcare Centres   | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Kindergartens       | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Parks               | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Eldercare           | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Supermarket         | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Tourist Attractions | [OneMap](https://www.onemap.gov.sg/main/v2/themes)                                                                      | SHP  |
+| Shopping Malls      | [Wikipedia](https://en.wikipedia.org/wiki/List_of_shopping_malls_in_Singapore)                                          | CSV  |
 
 ## Approach & Methodology
 
