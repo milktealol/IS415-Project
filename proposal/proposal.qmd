@@ -24,7 +24,7 @@ editor: visual
 
 With the rapid expansion of Singapore's Mass Rapid Transit (MRT) and Light Rail Transit (LRT) systems as seen in the Rail Expansion Plan above, we need to understand the effectiveness of these stations in serving the people in terms of accessibility. Should these new stations not be useful for Singaporeans in bringing them to places, it will only bring a negative ROI in terms of financial and possible environmental impacts.
 
-Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for the in Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.
+Geographical accessibility and spatial interaction models are important considerations for any transportation network, and this is especially true for Singapore. These systems provide an essential transportation link for commuters across the city-state, and its accessibility can have a significant impact on the overall mobility and quality of life of residents.
 
 ## Project Objectives
 

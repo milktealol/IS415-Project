@@ -43,7 +43,7 @@ ui <- fluidPage(
                   <ul>
                   <li>Daniel Chng - Daniel.Chng.2020@scis.smu.edu.sg</li>
                   <li>Leon Tan - Leon.Tan.2020@scis.smu.edu.sg</li>
-                  <li>Zoe Chia - Alanischia.2018x@scis.smu.edu.sg</li>
+                  <li>Zoe Chia - Alanischia.2018@scis.smu.edu.sg</li>
                   </ul>
                   </div>"),
              
@@ -188,7 +188,7 @@ ui <- fluidPage(
                # Main panel
                mainPanel(
                  br(),
-                 tags$p(HTML("<b>Hanson Explained</b>")),
+                 tags$p(HTML("<b>Hansen Explained</b>")),
                  tags$p(HTML("The Hansen method involves using GIS to analyze the spatial relationship between transportation infrastructure and population. 
                              It calculates the travel time between each point in the study area and the nearest transportation facility to create maps that 
                              show the level of accessibility to different types of transportation for each location. This method is useful in identifying 
@@ -222,7 +222,7 @@ ui <- fluidPage(
                  br(),
                  tags$p(HTML("<b>Analysis</b>")),
                  tags$p(style="margin-bottom: 80px;", "We can see that the red dot represents the place of interest and the IQR represents the MRT/LRT Stations.
-                    For ever place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
+                    For every place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
                )
              ),
     ),
@@ -287,7 +287,7 @@ ui <- fluidPage(
                # Main panel
                mainPanel(
                  br(),
-                 tags$p(HTML("<b>KD2SFCA3 Explained</b>")),
+                 tags$p(HTML("<b>KD2SFCA Explained</b>")),
                  tags$p(HTML("The KD2SFCA method involves using GIS to analyze the spatial relationship between train stations and population. 
                              The method calculates the number of train stations within a certain travel time of each location, 
                              taking into account both supply and demand factors. This results in a series of maps that show the 
@@ -319,7 +319,7 @@ ui <- fluidPage(
                  br(),
                  tags$p(HTML("<b>Analysis</b>")),
                  tags$p(style="margin-bottom: 80px;", "We can see that the red dot represents the place of interest and the IQR represents the MRT/LRT Stations.
-                    For ever place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
+                    For every place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
                )
              ),
     ),
@@ -420,7 +420,7 @@ ui <- fluidPage(
                  br(),
              tags$p(HTML("<b>Analysis</b>")),
              tags$p(style="margin-bottom: 80px;", "We can see that the red dot represents the place of interest and the IQR represents the MRT/LRT Stations.
-                    For ever place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
+                    For every place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
                )
              ),
     ),
