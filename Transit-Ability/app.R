@@ -33,11 +33,46 @@ ui <- fluidPage(
   tabsetPanel(
     # First tab
     tabPanel("Overview",
-             tags$image(src = "logo.png", width=300,height=300),
-             tags$p("IS415 - Geospatial Analytics and Application - Group 5"),
-             tags$p("Project Transit-Ability helps Singaporeans throughout the city by analyzing 
+             tags$image(style="display: block; margin-left: auto; margin-right: auto;", src = "logo.png", width=300,height=300),
+             tags$h1(style="text-align: center;", "IS415 - Geospatial Analytics and Application - Group 5"),
+             tags$h4(style="text-align: center;", "Project Transit-Ability helps Singaporeans throughout the city by analyzing 
                       the spatial accessibility using different methods from MRT/LRT stations to 
-                      relevant locations.")
+                      relevant locations.", 
+                     tags$a(style="text-align: center;", href="https://is415-group-5.netlify.app/proposal/proposal.html", "Click here to view our project proposal!")),
+             tags$h2(style="text-align: center;", "Group Members"),
+             HTML("<div style='display: flex; justify-content: center;'>
+                  <ul>
+                  <li>Daniel Chng - Daniel.Chng.2020@scis.smu.edu.sg</li>
+                  <li>Leon Tan - Leon.Tan.2020@scis.smu.edu.sg</li>
+                  <li>Zoe Chia - Alanischia.2018x@scis.smu.edu.sg</li>
+                  </ul>
+                  </div>"),
+             
+             tags$h2(style="text-align: center;", "Dataset Links"),
+             HTML("<div style='display: flex; justify-content: center;'>
+                  <ul>
+                  <li><a href='https://data.gov.sg/dataset/sample-household-survey-hdb-resident-population-by-geographical-distribution'>Population Density</a></li>
+                  <li><a href='https://data.gov.sg/dataset/master-plan-2019-planning-area-boundary-no-sea'>Singapore Zoning</a></li>
+                  <li><a href='https://data.gov.sg/dataset/school-directory-and-information'>Primary Schools</a></li>
+                  <li><a href='https://datamall.lta.gov.sg/content/datamall/en/static-data.html'>MRT & LRT Stations</a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Hawker Centres</a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Childcare Centres </a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Kindergartens</a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Parks</a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Eldercare</a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Supermarket</a></li>
+                  <li><a href='https://www.onemap.gov.sg/main/v2/themes'>Tourist Attractions</a></li>
+                  <li><a href='https://en.wikipedia.org/wiki/List_of_shopping_malls_in_Singapore'>Shopping Malls </a></li>
+                  </ul>
+                  </div>"),
+             
+             tags$h2(style="text-align: center;", "Useful Links"),
+             HTML("<div style='display: flex; justify-content: center;'>
+                  <ul>
+                  <li><a href='https://is415-group-5.netlify.app/'>Project Website</a></li>
+                  <li><a href='https://github.com/milktealol/IS415-Project'>Project GitHub</a></li>
+                  </ul>
+                  </div>")
     ),
     
     # Second tab
@@ -45,9 +80,10 @@ ui <- fluidPage(
              # Sidebar panel
              sidebarLayout(position = "left",
                sidebarPanel(
+                 tags$p(HTML("<b>Feel free to change the variables for a better outlook!</b>")),
                  selectInput(
                    inputId = "mapvariable",
-                   label = "Mapping Variable:",
+                   label = "Places of Interest:",
                    choices = c("Tourist Attraction" = "tourism",
                                "Shopping Malls" = "shopping",
                                "Child Cares" = "childcare",
@@ -59,19 +95,26 @@ ui <- fluidPage(
                                "Primary Schools" = "primaryschool"),
                    selected = "tourism"
                  ),
-                 tags$p("Change the Mapping Variable above to view the different 
-                          locations with the MRT & LRT lines on the Singapore map."),
                  submitButton("Apply Changes")
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 br(),
+                 tags$p(HTML("<b>EDA Explained</b>")),
+                 tags$p(HTML("Exploratory data analysis (EDA) is used to investigate data sets and summarize their main characteristics, often employing data visualization methods. 
+                             It helps determine how best to manipulate data sources to get the answers we need, making it easier 
+                             for us to discover patterns, spot anomalies, test a hypothesis, or check assumptions.")),
+                 br(),
+                 tags$p(HTML("<b><i>Note: Charts might take around 5 - 10 seconds to load. If charts are loading, changing tabs might cause it to crash :(</i></b>")),
+                 br(),
+                 tags$p(HTML("<b>MRT with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_eda1",
                             width = "100%",
                             height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p("The black dots represents the MRT/LRT stations, and the yellow dots represents the selected places of interest."),
                  br(),
                  tags$p(HTML("<b>MRT x Population Density</b>")),
                  withLoader(tmapOutput("mapPlot_eda2",
@@ -79,7 +122,8 @@ ui <- fluidPage(
                             height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p(style="margin-bottom: 80px;","The population is based off from the 2022 dataset. We use this to have a visual guage on how the population density would look like with the MRT/LRT Stations overlay."),
                ),
              ),
     ),
@@ -89,10 +133,11 @@ ui <- fluidPage(
              # Sidebar panel
              sidebarLayout(position = "left",
                sidebarPanel(
-                 width = 3,
+                 width = 4,
+                 tags$p(HTML("<b>Feel free to change the variables for a better outlook!</b>")),
                  selectInput(
                    inputId = "mapvariable_Hansen",
-                   label = "Mapping Variable:",
+                   label = "Places of Interest:",
                    choices = c("Tourist Attraction" = "tourism",
                                "Shopping Malls" = "shopping",
                                "Child Cares" = "childcare",
@@ -104,13 +149,13 @@ ui <- fluidPage(
                                "Primary Schools" = "primaryschool"),
                    selected = "tourism"
                  ),
-                 tags$p("Change the Mapping Variable above to view the different 
-             locations with the MRT & LRT lines on the Singapore map."),
                  numericInput("userdemand", "Demand:", 100, min = 100),
+                 HTML("<i>Demand: Represents the population in each area</i>"),
                  numericInput("usercapacity", "Capacity:", 100, min = 100),
+                 HTML("<i>Capacity: Represents the number of amenities or services available at each location</i>"),
                  selectInput(
                    inputId = "region",
-                   label = "Region:",
+                   label = "Focus Region:",
                    choices = c("All Region" = "allregion",
                                "Central Region" = "CENTRAL REGION",
                                "West Region" = "WEST REGION",
@@ -119,7 +164,7 @@ ui <- fluidPage(
                                "North" = "NORTH REGION")
                  ),
                  selectInput( inputId = "colour",
-                              label = "Mapping Variable Colour:",
+                              label = "Mapping Colour:",
                               choices = list("Grey" = "grey",
                                              "White" = "white",
                                              "Yellow" = "yellow",
@@ -143,23 +188,42 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+                 br(),
+                 tags$p(HTML("<b>Hanson Explained</b>")),
+                 tags$p(HTML("The Hansen method involves using GIS to analyze the spatial relationship between transportation infrastructure and population. 
+                             It calculates the travel time between each point in the study area and the nearest transportation facility to create maps that 
+                             show the level of accessibility to different types of transportation for each location. This method is useful in identifying 
+                             areas that are underserved by transportation infrastructure and evaluating the potential impacts of new transportation investments, 
+                             helping planners and policymakers make more informed decisions about transportation investments and ensuring that transportation 
+                             services are distributed fairly.")),
+                 br(),
+                 tags$p(HTML("<b><i>Note: Charts might take around 5 - 10 seconds to load. If charts are loading, changing tabs might cause it to crash :(</i></b>")),
+                 br(),
+                 tags$p(HTML("<b>Hexagon with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_hansen1", width = "100%", height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p("MRT/LRT which are within the darker hexagon shades, are more accessible to the place of interest. 
+                        If a location has high demand but low capacity, it will have a lower accessibility score. 
+                        Similarly, a location that has low capacity but nearer to the demand area would have a higher accessibility score."),
                  br(),
-                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 tags$p(HTML("<b>MRT with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_hansen2", width = "100%", height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p("The darker each MRT/LRT stations is, the more accessible the MRT/LRT is to the the place of interest.
+                      If a location has high demand but low capacity, it will have a lower accessibility score. 
+                        Similarly, a location that has low capacity but nearer to the demand area would have a higher accessibility score."),
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
                  withLoader(plotOutput("mapPlot_hansen3", width = "100%", height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p(style="margin-bottom: 80px;", "We can see that the red dot represents the place of interest and the IQR represents the MRT/LRT Stations.
+                    For ever place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
                )
              ),
     ),
@@ -168,10 +232,11 @@ ui <- fluidPage(
              # Sidebar panel
              sidebarLayout(position = "left",
                sidebarPanel(
-                 width = 3,
+                 width = 4,
+                 tags$p(HTML("<b>Feel free to change the variables for a better outlook!</b>")),
                  selectInput(
                    inputId = "mapvariable_KD2SFCA",
-                   label = "Mapping Variable:",
+                   label = "Places of Interest:",
                    choices = c("Tourist Attraction" = "tourism",
                                "Shopping Malls" = "shopping",
                                "Child Cares" = "childcare",
@@ -183,13 +248,13 @@ ui <- fluidPage(
                                "Primary Schools" = "primaryschool"),
                    selected = "tourism"
                  ),
-                 tags$p("Change the Mapping Variable above to view the different 
-             locations with the MRT & LRT lines on the Singapore map."),
                  numericInput("userdemand_KD2SFCA", "Demand:", 100, min = 100),
+                 HTML("<i>Demand: Represents the population in each area</i>"),
                  numericInput("usercapacity_KD2SFCA", "Capacity:", 100, min = 100),
+                 HTML("<i>Capacity: Represents the number of amenities or services available at each location</i>"),
                  selectInput(
                    inputId = "region_KD2SFCA",
-                   label = "Region:",
+                   label = "Focus Region:",
                    choices = c("All Region" = "allregion",
                                "Central Region" = "CENTRAL REGION",
                                "West Region" = "WEST REGION",
@@ -198,7 +263,7 @@ ui <- fluidPage(
                                "North" = "NORTH REGION")
                  ),
                  selectInput( inputId = "colour_KD2SFCA",
-                              label = "Mapping Variable Colour:",
+                              label = "Mapping Colour:",
                               choices = list("Grey" = "grey",
                                              "White" = "white",
                                              "Yellow" = "yellow",
@@ -222,23 +287,40 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+                 br(),
+                 tags$p(HTML("<b>KD2SFCA3 Explained</b>")),
+                 tags$p(HTML("The KD2SFCA method involves using GIS to analyze the spatial relationship between train stations and population. 
+                             The method calculates the number of train stations within a certain travel time of each location, 
+                             taking into account both supply and demand factors. This results in a series of maps that show the 
+                             level of mrt stations’ accessibility for each location in the study area. This method is useful in 
+                             identifying areas with poor accessibility to stations.")),
+                 br(),
+                 tags$p(HTML("<b><i>Note: Charts might take around 5 - 10 seconds to load. If charts are loading, changing tabs might cause it to crash :(</i></b>")),
+                 br(),
+                 tags$p(HTML("<b>Hexagon with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_KD2SFCA1", width = "100%", height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p("MRT/LRT which are within the darker hexagon shades, are more accessible to the place of interest.
+                        If a location has high demand but low capacity, it will have a lower accessibility score. 
+                        Similarly, a location that has low capacity but nearer to the demand area would have a higher accessibility score."),
                  br(),
-                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 tags$p(HTML("<b>MRT with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_KD2SFCA2", width = "100%", height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
-                 br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p("The darker each MRT/LRT stations is, the more accessible the MRT/LRT is to the the place of interest.
+                      If a location has high demand but low capacity, it will have a lower accessibility score. 
+                        Similarly, a location that has low capacity but nearer to the demand area would have a higher accessibility score."),
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
                  withLoader(plotOutput("mapPlot_KD2SFCA3", width = "100%", height = 400), type="image", 
                             loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p(style="margin-bottom: 80px;", "We can see that the red dot represents the place of interest and the IQR represents the MRT/LRT Stations.
+                    For ever place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
                )
              ),
     ),
@@ -247,10 +329,11 @@ ui <- fluidPage(
              # Sidebar panel
              sidebarLayout(position = "left",
                sidebarPanel(
-                 width = 3,
+                 width = 4,
+                 tags$p(HTML("<b>Feel free to change the variables for a better outlook!</b>")),
                  selectInput(
                    inputId = "mapvariable_SAM",
-                   label = "Mapping Variable:",
+                   label = "Places of Interest:",
                    choices = c("Tourist Attraction" = "tourism",
                                "Shopping Malls" = "shopping",
                                "Child Cares" = "childcare",
@@ -262,13 +345,13 @@ ui <- fluidPage(
                                "Primary Schools" = "primaryschool"),
                    selected = "tourism"
                  ),
-                 tags$p("Change the Mapping Variable above to view the different 
-             locations with the MRT & LRT lines on the Singapore map."),
                  numericInput("userdemand_SAM", "Demand:", 100, min = 100),
+                 HTML("<i>Demand: Represents the population in each area</i>"),
                  numericInput("usercapacity_SAM", "Capacity:", 100, min = 100),
+                 HTML("<i>Capacity: Represents the number of amenities or services available at each location</i>"),
                  selectInput(
                    inputId = "region_SAM",
-                   label = "Region:",
+                   label = "Focus Region:",
                    choices = c("All Region" = "allregion",
                                "Central Region" = "CENTRAL REGION",
                                "West Region" = "WEST REGION",
@@ -277,7 +360,7 @@ ui <- fluidPage(
                                "North" = "NORTH REGION")
                  ),
                  selectInput( inputId = "colour_SAM",
-                              label = "Mapping Variable Colour:",
+                              label = "Mapping Colour:",
                               choices = list("Grey" = "grey",
                                              "White" = "white",
                                              "Yellow" = "yellow",
@@ -301,23 +384,44 @@ ui <- fluidPage(
                ),
                # Main panel
                mainPanel(
-                 tags$p(HTML("<b>Hexagon x Mapping Variable</b>")),
+                 br(),
+                 tags$p(HTML("<b>SAM Explained</b>")),
+                 tags$p(HTML("The Spatial Accessibility Measure (SAM) involves using GIS to analyze the spatial relationship 
+                             between a service facility and a population. The method calculates the level of accessibility to 
+                             the service facility for each location in the study area, taking into account factors such as 
+                             travel time and distance, mode of transportation, and the size of the population served. The 
+                             result is a series of maps that show the level of accessibility for each location, which can 
+                             be used to identify areas that are underserved by the service facility. This method is useful 
+                             in informing policy and planning decisions related to service provision, and can be applied 
+                             to a range of service types, including healthcare, education, and retail.")),
+                 br(),
+                 tags$p(HTML("<b><i>Note: Charts might take around 5 - 10 seconds to load. If charts are loading, changing tabs might cause it to crash :(</i></b>")),
+                 br(),
+                 tags$p(HTML("<b>Hexagon with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_SAM1", width = "100%", height = 400), type="image", 
                  loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+                 tags$p(HTML("<b>Analysis</b>")),
+                 tags$p("MRT/LRT which are within the darker hexagon shades, are more accessible to the place of interest.
+                        If a location has high demand but low capacity, it will have a lower accessibility score. 
+                        Similarly, a location that has low capacity but nearer to the demand area would have a higher accessibility score."),
                  br(),
-                 tags$p(HTML("<b>MRT x Mapping Variable</b>")),
+                 tags$p(HTML("<b>MRT with Places of Interest</b>")),
                  withLoader(tmapOutput("mapPlot_SAM2", width = "100%", height = 400), type="image", 
                loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the map to load</b>")),
+               tags$p(HTML("<b>Analysis</b>")),
+               tags$p("The darker each MRT/LRT stations is, the more accessible the MRT/LRT is to the the place of interest.
+                      If a location has high demand but low capacity, it will have a lower accessibility score. 
+                        Similarly, a location that has low capacity but nearer to the demand area would have a higher accessibility score."),
                  br(),
                  tags$p(HTML("<b>MRT - Statistical Graphic Visualisation</b>")),
                  withLoader(plotOutput("mapPlot_SAM3", width = "100%", height = 400), type="image", 
              loader="subway-map-singapore-loading.gif"),
                  br(),
-                 tags$p(HTML("<b>Please give a bit of time for the chart to load</b>"))
+             tags$p(HTML("<b>Analysis</b>")),
+             tags$p(style="margin-bottom: 80px;", "We can see that the red dot represents the place of interest and the IQR represents the MRT/LRT Stations.
+                    For ever place of interest, there is a MRT/LRT station nearby (Red Dot within the IQR), making it accessible."),
                )
              ),
     ),
