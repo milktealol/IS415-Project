@@ -273,7 +273,7 @@ ui <- fluidPage(
                                              "Cyan" = "cyan",
                                              "Lime Green" = "limegreen"),
                               selected = "grey"),
-                 selectInput( inputId = "shadeColor",
+                 selectInput( inputId = "shadeColor_KD2SFCA",
                               label = "Hexagon Variable Colour:",
                               choices = list("Yellow Orange Brown" = "YlOrBr",
                                              "Yellow Orange Red" = "YlOrRd",
@@ -370,7 +370,7 @@ ui <- fluidPage(
                                              "Cyan" = "cyan",
                                              "Lime Green" = "limegreen"),
                               selected = "grey"),
-                 selectInput( inputId = "shadeColor",
+                 selectInput( inputId = "shadeColor_SAM",
                               label = "Hexagon Variable Colour:",
                               choices = list("Yellow Orange Brown" = "YlOrBr",
                                              "Yellow Orange Red" = "YlOrRd",
@@ -724,7 +724,7 @@ server <- function(input, output) {
       tm_fill(col = "accKD2SFCA",
               n = 10,
               style = "quantile",
-              palette = input$shadeColor,
+              palette = input$shadeColor_KD2SFCA,
               border.col = "black",
               border.lwd = 1) +
       tm_shape(mrt_region) +
@@ -795,7 +795,7 @@ server <- function(input, output) {
                  n = 10,
                  style = "quantile",
                  size = 0.2,
-                 palette = input$shadeColor,
+                 palette = input$shadeColor_KD2SFCA,
                  border.col = "black",
                  border.lwd = 1) +
       tm_view(set.zoom.limits = c(11,14),
@@ -934,7 +934,7 @@ server <- function(input, output) {
       tm_fill(col = "accSAM",
               n = 10,
               style = "quantile",
-              palette = input$shadeColor,
+              palette = input$shadeColor_SAM,
               border.col = "black",
               border.lwd = 1) +
       tm_shape(mrt_region) +
@@ -1005,7 +1005,7 @@ server <- function(input, output) {
                  n = 10,
                  style = "quantile",
                  size = 0.2,
-                 palette = input$shadeColor,
+                 palette = input$shadeColor_SAM,
                  border.col = "black",
                  border.lwd = 1) +
       tm_view(set.zoom.limits = c(11,14),
