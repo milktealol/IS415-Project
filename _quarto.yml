@@ -16,7 +16,7 @@ website:
       - text: "Shiny App"
         href: "https://idccy.shinyapps.io/Transit-Ability/"
       - text: "Research Paper"
-        href: "research/research.html"
+        href: "research/research_paper.pdf"
 
     right:
       - icon: github
